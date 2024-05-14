@@ -67,7 +67,7 @@ void Menu::waitMenu(){
             auto start = std::chrono::high_resolution_clock::now();
             double cost = Management::tspBacktracking(g);
             auto end = std::chrono::high_resolution_clock::now();
-            auto duration = duration_cast<milliseconds>(stop - start).count();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
             options.message = "TSP using a Backtracking Algorithm\n - For graph: " + datasets[curDataset] + ", starting in node 0";
             printTspResults(options, cost, duration);
@@ -78,7 +78,7 @@ void Menu::waitMenu(){
             auto start = std::chrono::high_resolution_clock::now();
             double cost = Management::tspTriangular(g);
             auto end = std::chrono::high_resolution_clock::now();
-            auto duration = duration_cast<milliseconds>(stop - start).count();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
             options.message = "TSP using the Triangular Approximation Algorithm\n - For graph: " + datasets[curDataset] + ", starting in node 0";
             printTspResults(options, cost, duration);
@@ -87,9 +87,9 @@ void Menu::waitMenu(){
         // Other Heuristics
         case 3: {
             auto start = std::chrono::high_resolution_clock::now();
-            double cost = Management::tspOther(g)
+            double cost = Management::tspOther(g);
             auto end = std::chrono::high_resolution_clock::now();
-            auto duration = duration_cast<milliseconds>(stop - start).count();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
             options.message = "TSP using Other Heuristics\n - For graph: " + datasets[curDataset] + ", starting in node 0";
             printTspResults(options, cost, duration);
@@ -102,9 +102,9 @@ void Menu::waitMenu(){
             auto start = std::chrono::high_resolution_clock::now();
             double cost = Management::tspRealWorld(g, startingPoint);
             auto end = std::chrono::high_resolution_clock::now();
-            auto duration = duration_cast<milliseconds>(stop - start).count();
+            auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-            options.message = "TSP in the Real World\n - For graph: " + datasets[curDataset] + ", starting in node " + startingPoint;
+            options.message = "TSP in the Real World\n - For graph: " + datasets[curDataset] + ", starting in node " + std::to_string(startingPoint);
             printTspResults(options, cost, duration);
             break;
         }
@@ -125,11 +125,11 @@ void Menu::waitMenu(){
  */
 void Menu::chooseDataset() {
     std::cout << "Choose what dataset to use:\n\n";
-    std::cout << "\tToy Graphs\n"
+    std::cout << "\tToy Graphs\n";
     std::cout << "\t\t0 - Shipping\n";
     std::cout << "\t\t1 - Stadiums\n";
     std::cout << "\t\t2 - Tourism\n\n";
-    std::cout << "\tExtra Fully Connected Graphs\n"
+    std::cout << "\tExtra Fully Connected Graphs\n";
     std::cout << "\t\t3 - 25 nodes\n";
     std::cout << "\t\t4 - 50 nodes\n";
     std::cout << "\t\t5 - 75 nodes\n";
@@ -177,7 +177,7 @@ void Menu::printTspResults(printingOptions options, double cost, long duration) 
 
     oss << "\n\n";
 
-    oss << "Cost: " << cost << "\n"
+    oss << "Cost: " << cost << "\n";
     oss << "Execution time: " << duration + "ms\n";
 
     std::cout << oss.str();

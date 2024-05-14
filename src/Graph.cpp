@@ -34,7 +34,7 @@ int Graph::findVertexIdx(const int &in) const {
  *  Adds a vertex with a given content or info (in) to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
-bool Graph::addVertex(const int &in, const double lat=0, const double lng=0) {
+bool Graph::addVertex(const int &in, const double lat, const double lng) {
     if (findVertex(in) != nullptr)
         return false;
     vertexSet.push_back(new Vertex(in, lat, lng));

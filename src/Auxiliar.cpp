@@ -1,7 +1,5 @@
 #include "Auxiliar.h"
-#include "Reservoir.h"
-#include "Station.h"
-#include "City.h"
+
 #include <sstream>
 #include <fstream>
 #include <algorithm>

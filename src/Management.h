@@ -3,12 +3,13 @@
 
 #include "Graph.h"
 
-static class Management {
+class Management {
 
-    double tspBacktracking(Graph* graph);
-    double tspTriangular(Graph* graph);
-    double tspOther(Graph* graph);
-    double tspRealWorld(Graph* graph, int start);
+public:
+    static double tspBacktracking(Graph* graph);
+    static double tspTriangular(Graph* graph);
+    static double tspOther(Graph* graph);
+    static double tspRealWorld(Graph* graph, int start);
 
 };
 
