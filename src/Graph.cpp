@@ -2,210 +2,252 @@
 #include <algorithm>
 #include "Graph.h"
 
-/**
- * @brief Graph Destructor
- * @details Time Complexity O(S) S = number of ServicePoints
+/************************* Vertex  **************************/
+
+Vertex::Vertex(int in): info(in) {}
+/*
+ * Auxiliary function to add an outgoing edge to a vertex (this),
+ * with a given destination vertex (d) and edge weight (w).
  */
-Graph::~Graph() {
-    auto it = servicePointSet.begin();
-    while (it != servicePointSet.end()) {
-        ServicePoint *sp = *it;
-        it++;
-        removeServicePoint(sp);
+
+Edge * Vertex::addEdge(Vertex *d, double w) {
+    auto newEdge = new Edge(this, d, w);
+    adj.push_back(newEdge);
+    d->incoming.push_back(newEdge);
+    return newEdge;
+}
+
+/*
+ * Auxiliary function to remove an outgoing edge (with a given destination (d))
+ * from a vertex (this).
+ * Returns true if successful, and false if such edge does not exist.
+ */
+
+bool Vertex::removeEdge(int in) {
+    bool removedEdge = false;
+    auto it = adj.begin();
+    while (it != adj.end()) {
+        Edge *edge = *it;
+        Vertex *dest = edge->getDest();
+        if (dest->getInfo() == in) {
+            it = adj.erase(it);
+            deleteEdge(edge);
+            removedEdge = true; // allows for multiple edges to connect the same pair of vertices (multigraph)
+        }
+        else {
+            it++;
+        }
+    }
+    return removedEdge;
+}
+
+/*
+ * Auxiliary function to remove an outgoing edge of a vertex.
+ */
+
+void Vertex::removeOutgoingEdges() {
+    auto it = adj.begin();
+    while (it != adj.end()) {
+        Edge *edge = *it;
+        it = adj.erase(it);
+        deleteEdge(edge);
     }
 }
 
-/**
- * @brief Adds a Reservoir to the Graph
- * @param pReservoir
- */
-void Graph::addReservoir(Reservoir *pReservoir) {
-    addServicePoint(pReservoir);
-    reservoirSet.push_back(pReservoir);
-    reservoirByName.insert(make_pair(pReservoir->getName(), pReservoir));
 
+int Vertex::getInfo() const {
+    return this->info;
 }
 
-/**
- * @brief Adds a Station to the Graph
- * @param pStation
- */
-void Graph::addStation(Station *pStation) {
-    addServicePoint(pStation);
 
+std::vector<Edge*> Vertex::getAdj() const {
+    return this->adj;
 }
 
-/**
- * @brief Adds a City to the Graph
- * @param pCity
- */
-void Graph::addCity(City *pCity) {
-    addServicePoint(pCity);
-    citySet.push_back(pCity);
-    cityByName.insert(make_pair(pCity->getName(), pCity));
+bool Vertex::isVisited() const {
+    return this->visited;
 }
 
-/**
- * @brief Adds a ServicePoint to the Graph
- * @param servicePoint
- */
-void Graph::addServicePoint(ServicePoint *servicePoint) {
-    servicePointSet.push_back(servicePoint);
-    servicePointByCode.insert(make_pair(servicePoint->getCode(), servicePoint));
+bool Vertex::isProcessing() const {
+    return this->processing;
 }
 
-/**
- * @brief Removes a Service Point from the Graph
- * @param servicePoint
- * @details Time Complexity O(P²) P = number of Pipes
- */
-void Graph::removeServicePoint(ServicePoint *servicePoint) {
-    removeAssociatedPipes(servicePoint);
-    servicePointByCode.erase(servicePoint->getCode());
-    servicePointSet.erase(std::find(servicePointSet.begin(), servicePointSet.end(), servicePoint));
-    City * c = dynamic_cast<City *> (servicePoint);
-    Reservoir * r = dynamic_cast<Reservoir *> (servicePoint);
-    Station * s = dynamic_cast<Station *> (servicePoint);
-    if (c != nullptr) {
-        citySet.erase(std::find(citySet.begin(), citySet.end(), servicePoint));
-        cityByName.erase(c->getName());
-    } else if (r != nullptr) {
-        reservoirSet.erase(std::find(reservoirSet.begin(), reservoirSet.end(), servicePoint));
-        reservoirByName.erase(r->getName());
+
+unsigned int Vertex::getIndegree() const {
+    return this->indegree;
+}
+
+Edge *Vertex::getPath() const {
+    return this->path;
+}
+
+std::vector<Edge *> Vertex::getIncoming() const {
+    return this->incoming;
+}
+
+void Vertex::setInfo(int in) {
+    this->info = in;
+}
+
+void Vertex::setVisited(bool visited) {
+    this->visited = visited;
+}
+
+void Vertex::setProcesssing(bool processing) {
+    this->processing = processing;
+}
+
+void Vertex::setIndegree(unsigned int indegree) {
+    this->indegree = indegree;
+}
+
+void Vertex::setPath(Edge *path) {
+    this->path = path;
+}
+
+void Vertex::deleteEdge(Edge *edge) {
+    Vertex *dest = edge->getDest();
+    // Remove the corresponding edge from the incoming list
+    auto it = dest->incoming.begin();
+    while (it != dest->incoming.end()) {
+        if ((*it)->getOrig()->getInfo() == info) {
+            it = dest->incoming.erase(it);
+        }
+        else {
+            it++;
+        }
     }
-    delete servicePoint;
+    delete edge;
 }
 
-/**
- * @brief Removes associated Pipes to a given Service Point
- * @param servicePoint
- * @details Time Complexity O(P²) P = bigger number of adjacent or incoming Pipes
+/********************** Edge  ****************************/
+
+Edge::Edge(Vertex *orig, Vertex *dest, double w): orig(orig), dest(dest), weight(w) {}
+
+Vertex * Edge::getDest() const {
+    return this->dest;
+}
+
+double Edge::getWeight() const {
+    return this->weight;
+}
+
+Vertex * Edge::getOrig() const {
+    return this->orig;
+}
+
+Edge *Edge::getReverse() const {
+    return this->reverse;
+}
+
+bool Edge::isSelected() const {
+    return this->selected;
+}
+
+void Edge::setSelected(bool selected) {
+    this->selected = selected;
+}
+
+void Edge::setReverse(Edge *reverse) {
+    this->reverse = reverse;
+}
+
+/********************** Graph  ****************************/
+
+int Graph::getNumVertex() const {
+    return vertexSet.size();
+}
+
+std::vector<Vertex *> Graph::getVertexSet() const {
+    return vertexSet;
+}
+
+/*
+ * Auxiliary function to find a vertex with a given content.
  */
-void Graph::removeAssociatedPipes(ServicePoint * servicePoint) {
-    for (Pipe * pipe : servicePoint->getAdj()) {
-        removePipe(pipe);
+Vertex * Graph::findVertex(const int &in) const {
+    for (auto v : vertexSet)
+        if (v->getInfo() == in)
+            return v;
+    return nullptr;
+}
+
+/*
+ * Finds the index of the vertex with a given content.
+ */
+int Graph::findVertexIdx(const int &in) const {
+    for (unsigned i = 0; i < vertexSet.size(); i++)
+        if (vertexSet[i]->getInfo() == in)
+            return i;
+    return -1;
+}
+/*
+ *  Adds a vertex with a given content or info (in) to a graph (this).
+ *  Returns true if successful, and false if a vertex with that content already exists.
+ */
+bool Graph::addVertex(const int &in) {
+    if (findVertex(in) != nullptr)
+        return false;
+    vertexSet.push_back(new Vertex(in));
+    return true;
+}
+
+/*
+ *  Removes a vertex with a given content (in) from a graph (this), and
+ *  all outgoing and incoming edges.
+ *  Returns true if successful, and false if such vertex does not exist.
+ */
+bool Graph::removeVertex(const int &in) {
+    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        if ((*it)->getInfo() == in) {
+            auto v = *it;
+            v->removeOutgoingEdges();
+            for (auto u : vertexSet) {
+                u->removeEdge(v->getInfo());
+            }
+            vertexSet.erase(it);
+            delete v;
+            return true;
+        }
     }
-    for (Pipe * pipe : servicePoint->getIncoming()) {
-        removePipe(pipe);
+    return false;
+}
+
+/*
+ * Adds an edge to a graph (this), given the contents of the source and
+ * destination vertices and the edge weight (w).
+ * Returns true if successful, and false if the source or destination vertex does not exist.
+ */
+bool Graph::addEdge(const int &sourc, const int &dest, double w) {
+    auto v1 = findVertex(sourc);
+    auto v2 = findVertex(dest);
+    if (v1 == nullptr || v2 == nullptr)
+        return false;
+    v1->addEdge(v2, w);
+    return true;
+}
+
+/*
+ * Removes an edge from a graph (this).
+ * The edge is identified by the source (sourc) and destination (dest) contents.
+ * Returns true if successful, and false if such edge does not exist.
+ */
+bool Graph::removeEdge(const int &sourc, const int &dest) {
+    Vertex * srcVertex = findVertex(sourc);
+    if (srcVertex == nullptr) {
+        return false;
     }
+    return srcVertex->removeEdge(dest);
 }
 
-/**
- * @brief Adds a Pipe to the Graph
- * @param spA
- * @param spB
- * @param capacity
- */
-void Graph::addPipe(std::string spA, std::string spB, int capacity) {
-    Pipe *pPipe = new Pipe(servicePointByCode[spA], servicePointByCode[spB], capacity);
-    pPipe->getOrig()->addPipe(pPipe);
-    pPipe->getDest()->addIncomingPipe(pPipe);
-    pipeSet.push_back(pPipe);
-    pipeByEnds[std::make_pair(spA,spB)] = {pPipe};
-}
-
-/**
- * @brief Adds a Bidirectional Pipe to the Graph
- * @param spA
- * @param spB
- * @param capacity
- */
-void Graph::addBidirectionalPipe(std::string spA, std::string spB, int capacity) {
-    Pipe *pPipe1 = new Pipe(servicePointByCode[spA], servicePointByCode[spB], capacity);
-    Pipe *pPipe2 = new Pipe(servicePointByCode[spB], servicePointByCode[spA], capacity);
-    pPipe1->getOrig()->addPipe(pPipe1);
-    pPipe1->getDest()->addIncomingPipe(pPipe1);
-    pPipe2->getOrig()->addPipe(pPipe2);
-    pPipe2->getDest()->addIncomingPipe(pPipe2);
-    pPipe1->setReverse(pPipe2);
-    pPipe2->setReverse(pPipe1);
-    pipeSet.push_back(pPipe1);
-    pipeSet.push_back(pPipe2);
-    pipeByEnds[std::make_pair(spA,spB)] = {pPipe1};
-    pipeByEnds[std::make_pair(spB,spA)] = {pPipe2};
-}
-
-/**
- * @brief Removes a Pipe from the Graph
- * @param pipe
- * @details Time Complexity O(P) P = number of Pipes
- */
-void Graph::removePipe(Pipe * pipe) {
-    pipe->getOrig()->removeOutgoingPipe(pipe);
-    pipe->getDest()->removeIncomingPipe(pipe);
-    if (pipe->getReverse() != nullptr) {
-        pipe->getReverse()->getOrig()->removeOutgoingPipe(pipe->getReverse());
-        pipe->getReverse()->getDest()->removeIncomingPipe(pipe->getReverse());
-        pipeSet.erase(std::find(pipeSet.begin(), pipeSet.end(), pipe->getReverse()));
-        pipeByEnds.erase(std::make_pair(pipe->getDest()->getCode(),pipe->getOrig()->getCode()));
-        delete pipe->getReverse();
-    }
-    pipeSet.erase(std::find(pipeSet.begin(), pipeSet.end(), pipe));
-    pipeByEnds.erase(std::make_pair(pipe->getOrig()->getCode(),pipe->getDest()->getCode()));
-    delete pipe;
-}
-
-/**
- * @brief Gets the ServicePoint set
- * @return servicePointSet
- */
-std::vector<ServicePoint *> Graph::getServicePointSet() const {
-    return servicePointSet;
-}
-
-/**
- * @brief Gets the Reservoir set
- * @return reservoirSet
- */
-std::vector<ServicePoint *> Graph::getReservoirSet() const{
-    return reservoirSet;
-}
-
-/**
- * @brief Gets the Cities set
- * @return citySet
- */
-std::vector<ServicePoint *> Graph::getCitiesSet() const{
-    return citySet;
-}
-
-/**
- * @brief Gets the Pipe set
- * @return pipeSet
- */
-std::vector<Pipe *> Graph::getPipeSet() const{
-    return pipeSet;
-}
-
-/**
- * @brief Gets the City by name
- * @param name
- */
-ServicePoint * Graph::getCityByName(const std::string &name){
-    return cityByName[name];
-}
-
-/**
- * @brief Gets the Reservoir by name
- * @param name
- */
-ServicePoint * Graph::getReservoirByName(const std::string &name){
-    return reservoirByName[name];
-}
-
-/**
- * @brief Gets the ServicePoint by code
- * @param code
- */
-ServicePoint * Graph::findServicePoint(const std::string &code) {
-    return servicePointByCode[code];
-}
-
-/**
- * @brief Gets the Pipe by its ends
- * @param orig
- * @param dest
- */
-Pipe * Graph::getPipeByEnds(std::string orig, std::string dest){
-    return pipeByEnds[std::make_pair(orig,dest)];
+bool Graph::addBidirectionalEdge(const int &sourc, const int &dest, double w) {
+    auto v1 = findVertex(sourc);
+    auto v2 = findVertex(dest);
+    if (v1 == nullptr || v2 == nullptr)
+        return false;
+    auto e1 = v1->addEdge(v2, w);
+    auto e2 = v2->addEdge(v1, w);
+    e1->setReverse(e2);
+    e2->setReverse(e1);
+    return true;
 }
