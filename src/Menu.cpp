@@ -67,6 +67,7 @@ void Menu::waitMenu(){
             chooseDataset();
             g = new Graph();
             Auxiliar::readDataset(g, curDataset);
+            break;
         }
         // Backtracking algorithm
         case 1: {
