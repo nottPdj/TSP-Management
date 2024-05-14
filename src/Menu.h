@@ -3,7 +3,8 @@
 
 #include <string>
 #include <vector>
-#include "Management.h"
+
+#include "Graph.h"
 
 
 /**
@@ -11,11 +12,9 @@
  */
 struct printingOptions {
     std::string message;
-    std::string metrics;
     bool clear = true;
     bool printMessage = true;
-    bool printTotal = true;
-    bool printMetrics = false;
+    bool outputToFile = true;
     bool showEndMenu = true;
 };
 
@@ -26,19 +25,37 @@ struct printingOptions {
 class Menu {
 private:
     /**
-     * @brief Graph containing all the watter supply network information that is being managed.
+     * @brief Graph containing all of the chosen dataset information that is being managed.
      */
     Graph *g;
-    /**
-     * @brief Management extracts information from the graph containing the network and uses it to compute algorithms
-     * that are needed to satisfy the user requests.
-     */
-    Management m;
 
     /**
      * @brief Contains the names of the datasets available.
      */
-    std::string datasets[2] = {"Small", "Large"};
+    std::string datasets[18] = {
+        "Shipping",
+        "Stadiums",
+        "Tourism",
+        "25 nodes",
+        "50 nodes",
+        "75 nodes",
+        "100 nodes",
+        "200 nodes",
+        "300 nodes",
+        "400 nodes",
+        "500 nodes",
+        "600 nodes",
+        "700 nodes",
+        "800 nodes",
+        "900 nodes",
+        "Graph 1",
+        "Graph 2",
+        "Graph 3"
+    };
+
+    /**
+     * @brief Currently loaded dataset (index to dataset array)
+     */
     int curDataset = 0;
 
     /**
@@ -46,11 +63,10 @@ private:
      */
     std::string outputFile = "../data/output.txt";
 
-    // Table column widths
+    /**
+     * @brief Column widths
+     */
     const static int MENU_WIDTH = 86;
-    const static int CODE_WIDTH = 10;
-    const static int FLOW_WIDTH = 10;
-    const static int DEFICIT_WIDTH = 20;
 
 public:
     Menu(Graph *g);
@@ -60,6 +76,8 @@ private:
     // Wait for inputs
     void waitMenu();
     char getInput();
+    void chooseDataset();
+    int chooseStartingPoint();
 
     // Print menus
     void printMainMenu();
@@ -70,23 +88,12 @@ private:
     // Output file
     void clearOutputFile();
 
-    // Choosing and selecting input
-    ServicePoint * chooseReservoirInput();
-    ServicePoint * chooseCityInput();
-    ServicePoint * chooseStationInput();
-    Pipe * choosePipeInput();
-
     // Auxiliary formatting functions
-    std::string fill(char c, int width);
     std::string center(const std::string &str, char sep, int width);
 
     // Printing
-    void printFlowPerCity(std::unordered_map<std::string,int> flowCities, printingOptions options);
-    void printFlowDeficitPerCity(std::unordered_map<std::string,int> deficitCities, printingOptions options);
-    void printCrucialPipes(std::vector<std::pair<Pipe *, flowDiff>> crucialPipes, printingOptions options);
-    void printCitiesAffected(std::vector<std::pair<std::string, flowDiff>> citiesAffected, printingOptions options);
+    void printTspResults(printingOptions options, double cost, long duration);
 };
 
 
 #endif //PROJECT1_MENU_H
-
