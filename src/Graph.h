@@ -24,6 +24,7 @@ public:
      *  Adds a vertex with a given content or info (in) to a graph (this).
      *  Returns true if successful, and false if a vertex with that content already exists.
      */
+
     bool addVertex(const int &in, const double lat=0, const double lng=0 );
     bool removeVertex(const int &in);
 
@@ -41,6 +42,7 @@ public:
 
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
+
 
      // Finds the index of the vertex with a given content.
     int findVertexIdx(const int &in) const;

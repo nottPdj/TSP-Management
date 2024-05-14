@@ -11,37 +11,38 @@
  * @param g The main graph
  * @param dataset dataset to load
  */
+
+
 void Auxiliar::readDataset(Graph *g, int dataset) {
-    readReservoir(g, dataset);
-    readStations(g, dataset);
-    readCities(g, dataset);
-    readPipes(g, dataset);
-}
+    std::string files[18];
+    files[0] = "../data/Toy_Graphs/shipping.csv";
+    files[1] = "../data/Toy_Graphs/stadiums.csv";
+    files[2] = "../data/Toy_Graphs/tourism.csv";
+    files[3] = "../data/Real_World_Graphs/graph1/";
+    files[4] = "../data/Real_World_Graphs/graph2/";
+    files[5] = "../data/Real_World_Graphs/graph3/";
+    files[6] = "../data/Extra_Fully_Connected_Graphs/edges_25.csv";
+    files[7] = "../data/Extra_Fully_Connected_Graphs/edges_50.csv";
+    files[8] = "../data/Extra_Fully_Connected_Graphs/edges_75.csv";
+    files[9] = "../data/Extra_Fully_Connected_Graphs/edges_100.csv";
+    files[10] = "../data/Extra_Fully_Connected_Graphs/edges_200.csv";
+    files[11] = "../data/Extra_Fully_Connected_Graphs/edges_300.csv";
+    files[12] = "../data/Extra_Fully_Connected_Graphs/edges_400.csv";
+    files[13] = "../data/Extra_Fully_Connected_Graphs/edges_500.csv";
+    files[14] = "../data/Extra_Fully_Connected_Graphs/edges_600.csv";
+    files[15] = "../data/Extra_Fully_Connected_Graphs/edges_700.csv";
+    files[16] = "../data/Extra_Fully_Connected_Graphs/edges_800.csv";
+    files[17] = "../data/Extra_Fully_Connected_Graphs/edges_900.csv";
+    std::string filename = files[dataset];
 
-/**
- * @brief Reads the Reservoirs
- * @param g The main graph
- * @param dataset dataset to load
- * @details Time Complexity O(n) n = number of reservoirs
- */
-void Auxiliar::readReservoir(Graph *g, int dataset) {
-    std::string files[2];
-    files[0] = "../data/Project1DataSetSmall/Reservoirs_Madeira.csv";
-    files[1] = "../data/Project1LargeDataSet/Reservoir.csv";
-    std::ifstream file(files[dataset]);
-    std::string line;
-    std::string name, municipality, id, code, maxDelivery;
-
-    getline(file, line);
-    while (std::getline(file, line)){
-        std::istringstream ss(line);
-        getline(ss, name, ',');
-        getline(ss, municipality, ',');
-        getline(ss, id, ',');
-        getline(ss, code, ',');
-        getline(ss, maxDelivery, '\r');
-        Reservoir* reservoir = new Reservoir(name, municipality, id, code, std::stoi(maxDelivery));
-        g->addReservoir(reservoir);
+    if (dataset <= 2){
+        Auxiliar::readSmall(g, filename);
+    }
+    else if (dataset <= 5){
+        Auxiliar::readMedium(g, filename);
+    }
+    else if (dataset <= 17){
+        Auxiliar::readLarge(g, filename);
     }
 
 }
@@ -52,50 +53,20 @@ void Auxiliar::readReservoir(Graph *g, int dataset) {
  * @param dataset dataset to load
  * @details Time Complexity O(n) n = number of stations
  */
-void Auxiliar::readStations(Graph *g, int dataset) {
-    std::string files[2];
-    files[0] = "../data/Project1DataSetSmall/Stations_Madeira.csv";
-    files[1] = "../data/Project1LargeDataSet/Stations.csv";
-    std::ifstream file(files[dataset]);
-    std::string line;
-    std::string id, code;
+void Auxiliar::readSmall(Graph *g, std::string filename) {
+
+    std::ifstream file(filename);
+    std::string line, orig, dest, distance;
     getline(file, line);
 
     while (std::getline(file, line)){
         std::istringstream ss(line);
-        getline(ss, id, ',');
-        getline(ss, code, '\r');
-        Station* station = new Station(id, code);
-        g->addStation(station);
-    }
-
-}
-
-/**
- * @brief Reads the Cities
- * @param g The main graph
- * @param dataset dataset to load
- * @details Time Complexity O(n) n = number of cities
- */
-void Auxiliar::readCities(Graph *g, int dataset) {
-    std::string files[2];
-    files[0] = "../data/Project1DataSetSmall/Cities_Madeira.csv";
-    files[1] = "../data/Project1LargeDataSet/Cities.csv";
-    std::ifstream file(files[dataset]);
-    std::string line;
-    std::string name, id, code, demand, population;
-
-    getline(file, line);
-    while (std::getline(file, line)){
-        std::istringstream ss(line);
-        getline(ss, name, ',');
-        getline(ss, id, ',');
-        getline(ss, code, ',');
-        getline(ss, demand, ',');
-        getline(ss, population, '\r');
-        std::replace(population.begin(),population.end(),'\"',' ');
-        City* city = new City(name, id, code, std::stoi(demand), std::stoi(population));
-        g->addCity(city);
+        getline(ss, orig, ',');
+        getline(ss, dest, ',');
+        getline(ss, distance, ',');
+        g->addVertex(std::stoi(orig));
+        g->addVertex(std::stoi(dest));
+        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
     }
 
 }
@@ -106,27 +77,74 @@ void Auxiliar::readCities(Graph *g, int dataset) {
  * @param dataset dataset to load
  * @param dataset Time Complexity O(n) n = number of pipes
  */
-void Auxiliar::readPipes(Graph *g, int dataset) {
-    std::string files[2];
-    files[0] = "../data/Project1DataSetSmall/Pipes_Madeira.csv";
-    files[1] = "../data/Project1LargeDataSet/Pipes.csv";
-    std::ifstream file(files[dataset]);
-    std::string line;
-    std::string servicePointA, servicePointB, capacity, direction;
+void Auxiliar::readMedium(Graph *g, std::string filename) {
 
+    std::ifstream vertexFile(filename + "nodes.csv");
+    std::string line;
+    std::string id, longitude, latitude;
+    getline(vertexFile, line);
+
+    while (std::getline(vertexFile, line)){
+
+        std::istringstream ss(line);
+        getline(ss, id, ',');
+        getline(ss, longitude, ',');
+        getline(ss, latitude, '\r');
+        g->addVertex(std::stoi(id), std::stod(longitude), std::stod(latitude));
+    }
+
+    std::ifstream file(filename + "edges.csv");
+    std::string orig, dest, distance;
     getline(file, line);
+
     while (std::getline(file, line)){
         std::istringstream ss(line);
-        getline(ss, servicePointA, ',');
-        getline(ss, servicePointB, ',');
-        getline(ss, capacity, ',');
-        getline(ss, direction, '\r');
-        if (std::stoi(direction)){
-            g->addPipe(servicePointA, servicePointB, std::stoi(capacity));
-        }
-        else {
-            g->addBidirectionalPipe(servicePointA, servicePointB, std::stoi(capacity));
-        }
+        getline(ss, orig, ',');
+        getline(ss, dest, ',');
+        getline(ss, distance, '\r');
+        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
     }
+
+}
+
+/**
+ * @brief Reads the Cities
+ * @param g The main graph
+ * @param dataset dataset to load
+ * @details Time Complexity O(n) n = number of cities
+ */
+void Auxiliar::readLarge(Graph *g, std::string filename) {
+
+    std::string auxFilename = filename.substr(43, filename.length());
+    int vertexNr = std::stoi(auxFilename.substr(0, filename.length() - 4));
+
+    std::ifstream vertexFile("../data/Extra_Fully_Connected_Graphs/nodes.csv");
+    std::string line;
+    std::string id, longitude, latitude;
+    getline(vertexFile, line);
+
+    while (std::getline(vertexFile, line)){
+        if (vertexNr <= 0)
+            break;
+        std::istringstream ss(line);
+        getline(ss, id, ',');
+        getline(ss, longitude, ',');
+        getline(ss, latitude, '\r');
+        g->addVertex(std::stoi(id), std::stod(longitude), std::stod(latitude));
+        vertexNr--;
+    }
+
+    std::ifstream file(filename);
+    std::string orig, dest, distance;
+    getline(file, line);
+
+    while (std::getline(file, line)){
+        std::istringstream ss(line);
+        getline(ss, orig, ',');
+        getline(ss, dest, ',');
+        getline(ss, distance, '\r');
+        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+    }
+
 }
 
