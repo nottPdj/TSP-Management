@@ -8,10 +8,9 @@
 class Auxiliar {
 public:
     static void readDataset(Graph *g, int dataset = 0);
-    static void readReservoir(Graph *g, int dataset);
-    static void readStations(Graph *g, int dataset);
-    static void readCities(Graph *g, int dataset);
-    static void readPipes(Graph *g, int dataset);
+    static void readSmall(Graph *g, std::string filename);
+    static void readMedium(Graph *g, std::string filename);
+    static void readLarge(Graph *g, std::string filename);
 };
 
 #endif //PROJECT1_AUXILIAR_H
