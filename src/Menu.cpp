@@ -67,6 +67,7 @@ void Menu::waitMenu(){
             chooseDataset();
             g = new Graph();
             Auxiliar::readDataset(g, curDataset);
+            printMainMenu();
             break;
         }
         // Backtracking algorithm
@@ -143,11 +144,11 @@ void Menu::chooseDataset() {
     std::cout << "\t\t11 - 600 nodes\n";
     std::cout << "\t\t12 - 700 nodes\n";
     std::cout << "\t\t13 - 800 nodes\n";
-    std::cout << "\t\t14 - 900 nodes\n";
+    std::cout << "\t\t14 - 900 nodes\n\n";
     std::cout << "\tReal World Graphs\n";
     std::cout << "\t\t15 - Graph 1\n";
     std::cout << "\t\t16 - Graph 2\n";
-    std::cout << "\t\t17 - Graph 3\n";
+    std::cout << "\t\t17 - Graph 3\n\n";
     std::cin >> curDataset;
 }
 
