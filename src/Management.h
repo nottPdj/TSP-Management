@@ -3,7 +3,7 @@
 
 #include "Graph.h"
 
-class Management {
+static class Management {
 
     double tspBacktracking(Graph* graph);
     double tspTriangular(Graph* graph);
