@@ -1,5 +1,5 @@
-#ifndef PROJECT1_MENU_H
-#define PROJECT1_MENU_H
+#ifndef PROJECT2_MENU_H
+#define PROJECT2_MENU_H
 
 #include <string>
 #include <vector>
@@ -96,4 +96,4 @@ private:
 };
 
 
-#endif //PROJECT1_MENU_H
+#endif //PROJECT2_MENU_H
