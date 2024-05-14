@@ -104,7 +104,7 @@ void Menu::waitMenu(){
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = duration_cast<milliseconds>(stop - start).count();
 
-            options.message = "TSP using Other Heuristics\n - For graph: " + datasets[curDataset] + ", starting in node " + startingPoint;
+            options.message = "TSP in the Real World\n - For graph: " + datasets[curDataset] + ", starting in node " + startingPoint;
             printTspResults(options, cost, duration);
             break;
         }
