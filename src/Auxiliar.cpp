@@ -64,7 +64,7 @@ void Auxiliar::readSmall(Graph *g, std::string filename) {
         getline(ss, distance, ',');
         g->addVertex(std::stoi(orig));
         g->addVertex(std::stoi(dest));
-        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+        g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
     }
 
 }
@@ -100,7 +100,7 @@ void Auxiliar::readMedium(Graph *g, std::string filename) {
         getline(ss, orig, ',');
         getline(ss, dest, ',');
         getline(ss, distance, '\r');
-        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+        g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
     }
 
 }
@@ -141,7 +141,7 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
         getline(ss, orig, ',');
         getline(ss, dest, ',');
         getline(ss, distance, '\r');
-        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+        g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
     }
 
 }
