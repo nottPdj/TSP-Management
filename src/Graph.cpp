@@ -132,3 +132,7 @@ void Graph::addToDistMatrix(int v1, int v2, double dist) {
 double Graph::getDist(int v1, int v2) const {
     return this->distMatrix[v1][v2];
 }
+
+void Graph::setMatrix(double* newMatrix[]){
+    this->distMatrix = newMatrix;
+}
