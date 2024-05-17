@@ -109,7 +109,7 @@ void Menu::waitMenu(){
             break;
         }
         // Choose dataset
-        case 8: {
+        case 0: {
             chooseDataset();
             g = new Graph();
             Auxiliar::readDataset(g, curDataset);
