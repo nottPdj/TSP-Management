@@ -1,4 +1,5 @@
 #include "Auxiliar.h"
+#include "Management.h"
 
 #include <sstream>
 #include <fstream>
@@ -65,6 +66,15 @@ void Auxiliar::readSmall(Graph *g, std::string filename) {
         g->addVertex(std::stoi(orig));
         g->addVertex(std::stoi(dest));
         g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+        g->addToDistMatrix(stoi(orig), stoi(dest), stod(distance));
+    }
+    if (filename == "../data/Toy_Graphs/shipping.csv") {
+        for (int i = 0; i < 14; i++) {
+            for (int j = 0; j < 14; j++) {
+                if ((j != i) && (g->getDist(i, j) == 0))
+                    g->addToDistMatrix(i, j, Management::getHaversineDist(g->findVertex(i), g->findVertex(j)));
+            }
+        }
     }
 
 }
@@ -91,6 +101,7 @@ void Auxiliar::readMedium(Graph *g, std::string filename) {
         g->addVertex(std::stoi(dest));
         g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
         g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+        g->addToDistMatrix(stoi(orig), stoi(dest), stod(distance));
 
     }
 
@@ -107,6 +118,7 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
     std::ifstream vertexFile(filename + "nodes.csv");
     std::string line;
     std::string id, longitude, latitude;
+    int nrVertex = 0;
     getline(vertexFile, line);
 
     while (std::getline(vertexFile, line)){
@@ -116,6 +128,7 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
         getline(ss, longitude, ',');
         getline(ss, latitude, '\r');
         g->addVertex(std::stoi(id), std::stod(longitude), std::stod(latitude));
+        nrVertex++;
     }
 
     std::ifstream file(filename + "edges.csv");
@@ -128,6 +141,13 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
         getline(ss, dest, ',');
         getline(ss, distance, '\r');
         g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
+        g->addToDistMatrix(stoi(orig), stoi(dest), stod(distance));
     }
 
+    for (int i = 0; i < nrVertex; i++) {
+        for (int j = 0; j < nrVertex; j++){
+            if ((j!=i) && (g->getDist(i, j) == 0))
+                g->addToDistMatrix(i, j, Management::getHaversineDist(g->findVertex(i), g->findVertex(j)));
+        }
+    }
 }

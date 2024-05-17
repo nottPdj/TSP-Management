@@ -123,3 +123,12 @@ bool Graph::addBidirectionalEdge(const int &sourc, const int &dest, double w) {
     e2->setReverse(e1);
     return true;
 }
+
+void Graph::addToDistMatrix(int v1, int v2, double dist) {
+    this->distMatrix[v1][v2] = dist;
+    this->distMatrix[v2][v1] = dist;
+}
+
+double Graph::getDist(int v1, int v2) const {
+    return this->distMatrix[v1][v2];
+}
