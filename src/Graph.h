@@ -40,12 +40,13 @@ public:
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
 
+
+    // Finds the index of the vertex with a given content.
+    int findVertexIdx(const int &in) const;
+
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
 
-
-     // Finds the index of the vertex with a given content.
-    int findVertexIdx(const int &in) const;
 };
 
 #endif //PROJECT2_GRAPH_H

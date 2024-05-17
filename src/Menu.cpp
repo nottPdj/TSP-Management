@@ -117,6 +117,7 @@ void Menu::waitMenu(){
             printTspResults(options, cost, duration);
             break;
         }
+
         default: {
             printMainMenu();
         }
