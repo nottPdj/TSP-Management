@@ -1,7 +1,7 @@
 #include "Vertex.h"
 #include "Edge.h"
 
-Vertex::Vertex(int in, double lat, double lng): info(in),lat(lat),lon(lon) {}
+Vertex::Vertex(int in, double lon, double lat): info(in),lon(lon),lat(lat) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).

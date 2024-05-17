@@ -62,19 +62,21 @@ void Management::mst(Graph *graph, int start) {
         minHeap.push(std::make_pair(v, v->getDist()));
     }
 
-    //TODO stop if all elements done
-    while (!minHeap.empty()) {
+    int verticeCount = 0;
+    while (!minHeap.empty() && verticeCount < graph->getNumVertex()) {
         Vertex *v = minHeap.top().first;
         minHeap.pop();
         if (v->isVisited())
             continue;
         v->setVisited(true);
+        verticeCount++;
 
         for (Vertex *w : graph->getVertexSet()) {
             if (w->isVisited())
                 continue;
 
             double dist = getHaversineDist(v, w);
+            std::cout << v->getInfo() << " " << w->getInfo() << " " << dist << "\n";
             if (dist < w->getDist()) {
                 w->setParent(v);
                 w->setDist(dist);

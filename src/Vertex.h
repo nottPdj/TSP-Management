@@ -7,7 +7,7 @@
 
 class Vertex {
 public:
-    Vertex(int in, double lat, double lon);
+    Vertex(int in, double lon, double lat);
 
     int getInfo() const;
     std::vector<Edge *> getAdj() const;

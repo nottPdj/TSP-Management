@@ -181,7 +181,7 @@ void Menu::printTspResults(printingOptions options, double cost, long duration) 
     oss << "\n\n";
 
     oss << "Cost: " << cost << "\n";
-    oss << "Execution time: " << duration + "ms\n";
+    oss << "Execution time: " << duration << "ms\n";
 
     std::cout << oss.str();
 
