@@ -40,7 +40,8 @@ double Management::tspBacktrackingAlgorithm(Graph *graph, int currIdx, int n, in
 }
 
 double Management::tspTriangular(Graph *graph) {
-    mst(graph, 0);
+    double minBound = 0;
+    mst(graph, 0, minBound);
 
     for (Vertex *v: graph->getVertexSet()) {
         v->setVisited(false);
@@ -61,7 +62,7 @@ double Management::tspTriangular(Graph *graph) {
 
     // add last edge
     if (path.size() > 1) {
-        cost += getHaversineDist(path.back(), r);
+        cost += graph->getDist(path.back()->getInfo(), r->getInfo());
         path.push_back(r);
     }
 
@@ -76,7 +77,7 @@ double Management::tspRealWorld(Graph *graph, int start) {
     return 0;
 }
 
-void Management::mst(Graph *graph, int start) {
+void Management::mst(Graph *graph, int start, double &minBound) {
 
     for (Vertex *v : graph->getVertexSet()) {
         v->setVisited(false);
@@ -109,8 +110,7 @@ void Management::mst(Graph *graph, int start) {
             if (w->isVisited())
                 continue;
 
-            double dist = getHaversineDist(v, w);
-            std::cout << v->getInfo() << " " << w->getInfo() << " " << dist << "\n";
+            double dist = graph->getDist(v->getInfo(), w->getInfo());
             if (dist < w->getDist()) {
                 w->setParent(v);
                 w->setDist(dist);
@@ -120,24 +120,22 @@ void Management::mst(Graph *graph, int start) {
     }
 
     // set for each vertex the children that were visited after it
-    setChildren(graph);
+    setChildren(graph, minBound);
 }
 
-void Management::setChildren(Graph *graph) {
-    // TODO return first the closest child
-    // this cost is a lower bound of the optimal tour
-//    double cost = 0;
+void Management::setChildren(Graph *graph, double &minBound) {
+
     for (Vertex *v: graph->getVertexSet()) {
         if (v->getParent() != nullptr) {
             v->getParent()->addChild(v);
-//            cost += getHaversineDist(v, v->getParent());
+            minBound += graph->getDist(v->getInfo(), v->getParent()->getInfo());
         }
     }
 //    std::cout << "Cost = " << cost << "\n\n";
 }
 
 void Management::preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path) {
-    cost += getHaversineDist(v, path.back());
+    cost += g->getDist(v->getInfo(), path.back()->getInfo());
     path.push_back(v);
 
     for (Vertex *w: v->getChildren()) {

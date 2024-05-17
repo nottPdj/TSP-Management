@@ -14,8 +14,8 @@ public:
     static double tspRealWorld(Graph* graph, int start);
 
 private:
-    static void mst(Graph *graph, int start);
-    static void setChildren(Graph *graph);
+    static void mst(Graph *graph, int start, double &minBound);
+    static void setChildren(Graph *graph, double &minBound);
     static void preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path);
 
     static double convert(const double angle);
