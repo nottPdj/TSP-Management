@@ -4,6 +4,9 @@
 #include "Edge.h"
 #include <vector>
 
+/**
+ * @brief Vertex Class Definition
+ */
 class Vertex {
 public:
     Vertex(int in, double lat, double lng);

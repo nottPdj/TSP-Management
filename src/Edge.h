@@ -3,6 +3,9 @@
 
 class Vertex;
 
+/**
+ * @brief Edge Class Definition
+ */
 class Edge {
 public:
     Edge(Vertex *orig, Vertex *dest, double w);
