@@ -44,7 +44,7 @@ void Menu::printMainMenu() {
               << "\t1 - Backtracking algorithm" << "\n"
               << "\t2 - Triangular Approximation Heuristic" << "\n"
               << "\t3 - Other Heuristics" << "\n"
-              << "\t4 - In the Real World" << "\n";
+              << "\t4 - In the Real World" << "\n\n";
 
     printExit();
     std::cout << "Press the number corresponding the action you want." << "\n";
@@ -62,6 +62,14 @@ void Menu::waitMenu(){
     system("clear");
     printingOptions options;
     switch (stoi(choice)) {
+        // Choose dataset
+        case 0: {
+            chooseDataset();
+            g = new Graph();
+            Auxiliar::readDataset(g, curDataset);
+            printMainMenu();
+            break;
+        }
         // Backtracking algorithm
         case 1: {
             auto start = std::chrono::high_resolution_clock::now();
@@ -104,16 +112,12 @@ void Menu::waitMenu(){
             auto end = std::chrono::high_resolution_clock::now();
             auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
 
-            options.message = "TSP in the Real World\n - For graph: " + datasets[curDataset] + ", starting in node " + std::to_string(startingPoint);
+            options.message = "TSP in the Real World\n - For graph: " + datasets[curDataset] + ", starting in node " +
+                              std::to_string(startingPoint);
             printTspResults(options, cost, duration);
             break;
         }
-        // Choose dataset
-        case 0: {
-            chooseDataset();
-            g = new Graph();
-            Auxiliar::readDataset(g, curDataset);
-        }
+
         default: {
             printMainMenu();
         }
@@ -141,11 +145,11 @@ void Menu::chooseDataset() {
     std::cout << "\t\t11 - 600 nodes\n";
     std::cout << "\t\t12 - 700 nodes\n";
     std::cout << "\t\t13 - 800 nodes\n";
-    std::cout << "\t\t14 - 900 nodes\n";
+    std::cout << "\t\t14 - 900 nodes\n\n";
     std::cout << "\tReal World Graphs\n";
     std::cout << "\t\t15 - Graph 1\n";
     std::cout << "\t\t16 - Graph 2\n";
-    std::cout << "\t\t17 - Graph 3\n";
+    std::cout << "\t\t17 - Graph 3\n\n";
     std::cin >> curDataset;
 }
 
@@ -178,7 +182,7 @@ void Menu::printTspResults(printingOptions options, double cost, long duration) 
     oss << "\n\n";
 
     oss << "Cost: " << cost << "\n";
-    oss << "Execution time: " << duration + "ms\n";
+    oss << "Execution time: " << duration << "ms\n";
 
     std::cout << oss.str();
 
