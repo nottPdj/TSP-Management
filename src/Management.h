@@ -22,7 +22,6 @@ private:
     static void setChildren(Graph *graph, double &minBound);
     static void preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path);
 
-    static void preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path);
     static double convert(const double angle);
 };
 

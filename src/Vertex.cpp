@@ -5,7 +5,7 @@
 /**
  * @brief Vertex Constructor
  */
-Vertex::Vertex(int in, double lat, double lng): info(in),lat(lat),lng(lng) {}
+Vertex::Vertex(int in, double lon, double lat): info(in),lat(lat),lon(lon) {}
 
 /**
  * @brief Auxiliary function to add an outgoing edge to a vertex (this), with a given destination vertex (d) and edge weight (w).
