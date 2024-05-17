@@ -76,6 +76,8 @@ double Management::tspTriangular(Graph *graph) {
     // add last edge
     if (path.size() > 1) {
         cost += graph->getDist(path.back()->getInfo(), r->getInfo());
+        minBound += graph->getDist(path.back()->getInfo(), r->getInfo());
+        std::cout << minBound << '\n';
         path.push_back(r);
     }
 

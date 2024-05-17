@@ -5,13 +5,28 @@
 #include <fstream>
 #include <algorithm>
 
+
+double **Auxiliar::initMatrix(int n) {
+    auto matrix = new double*[n];
+    for (int i = 0; i < n; ++i) {
+        matrix[i] = new double[n];
+    }
+
+    // Initialize all elements to 0
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            matrix[i][j] = 0.0;
+        }
+    }
+
+    return matrix;
+}
+
 /**
  * @brief Reads the selected DataSet
  * @param g The main graph
  * @param dataset dataset to load
  */
-
-
 void Auxiliar::readDataset(Graph *g, int dataset) {
     std::string files[18];
     files[0] = "../data/Toy_Graphs/shipping.csv";
@@ -54,23 +69,35 @@ void Auxiliar::readDataset(Graph *g, int dataset) {
  */
 void Auxiliar::readSmall(Graph *g, std::string filename) {
 
+    std::vector<std::vector<double>> newMatrix;
     std::ifstream file(filename);
     std::string line, orig, dest, distance;
     getline(file, line);
+    int nrVertex = 0;
+
+    while (std::getline(file, line)){
+        std::istringstream ss(line);
+        getline(ss, orig, ',');
+        getline(ss, dest, ',');
+        getline(ss, distance, '\r');
+        nrVertex += g->addVertex(std::stoi(orig));
+        nrVertex += g->addVertex(std::stoi(dest));
+    }
+
+    g->setMatrix(Auxiliar::initMatrix(nrVertex));
 
     while (std::getline(file, line)){
         std::istringstream ss(line);
         getline(ss, orig, ',');
         getline(ss, dest, ',');
         getline(ss, distance, ',');
-        g->addVertex(std::stoi(orig));
-        g->addVertex(std::stoi(dest));
         g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
         g->addToDistMatrix(stoi(orig), stoi(dest), stod(distance));
     }
-    if (filename == "../data/Toy_Graphs/shipping.csv") {
-        for (int i = 0; i < 14; i++) {
-            for (int j = 0; j < 14; j++) {
+
+    if (filename == "../data/Toy_Graphs/shipping.csv"){
+        for (int i = 0; i < nrVertex; i++) {
+            for (int j = 0; j < nrVertex; j++) {
                 if ((j != i) && (g->getDist(i, j) == 0))
                     g->addToDistMatrix(i, j, Management::getHaversineDist(g->findVertex(i), g->findVertex(j)));
             }
@@ -91,18 +118,20 @@ void Auxiliar::readMedium(Graph *g, std::string filename) {
     std::string line, orig, dest, distance;
     getline(file, line);
 
+    std::string auxFilename = filename.substr(43, filename.length());
+    int nrVertex = std::stoi(auxFilename.substr(0, auxFilename.length() - 4));
+
+     g->setMatrix(Auxiliar::initMatrix(nrVertex));
+
     while (std::getline(file, line)){
         std::istringstream ss(line);
         getline(ss, orig, ',');
         getline(ss, dest, ',');
         getline(ss, distance, '\r');
-
-      g->addVertex(std::stoi(orig));
+        g->addVertex(std::stoi(orig));
         g->addVertex(std::stoi(dest));
-        g->addEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
         g->addBidirectionalEdge(std::stoi(orig), std::stoi(dest), std::stod(distance));
         g->addToDistMatrix(stoi(orig), stoi(dest), stod(distance));
-
     }
 
 }
@@ -122,7 +151,6 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
     getline(vertexFile, line);
 
     while (std::getline(vertexFile, line)){
-
         std::istringstream ss(line);
         getline(ss, id, ',');
         getline(ss, longitude, ',');
@@ -130,6 +158,8 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
         g->addVertex(std::stoi(id), std::stod(longitude), std::stod(latitude));
         nrVertex++;
     }
+
+    g->setMatrix(Auxiliar::initMatrix(nrVertex));
 
     std::ifstream file(filename + "edges.csv");
     std::string orig, dest, distance;

@@ -44,6 +44,7 @@ public:
     std::vector<Vertex *> getVertexSet() const;
 
     void addToDistMatrix(int v1, int v2, double dist);
+    void setMatrix(double* newMatrix[]);
     double getDist(int v1, int v2) const;
 
     // Finds the index of the vertex with a given content.
@@ -51,7 +52,7 @@ public:
 
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
-    std::vector<std::vector<double>> distMatrix = {};
+    double** distMatrix;
 };
 
 #endif //PROJECT2_GRAPH_H

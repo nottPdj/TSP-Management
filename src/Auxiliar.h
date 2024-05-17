@@ -11,6 +11,8 @@ public:
     static void readSmall(Graph *g, std::string filename);
     static void readMedium(Graph *g, std::string filename);
     static void readLarge(Graph *g, std::string filename);
+    static double** initMatrix(int n);
+
 };
 
 #endif //PROJECT1_AUXILIAR_H
