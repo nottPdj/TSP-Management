@@ -4,6 +4,9 @@
 #include "Graph.h"
 #include "Vertex.h"
 
+/**
+ * @brief Management Class Definition
+ */
 class Management {
 
 public:

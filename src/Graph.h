@@ -13,6 +13,9 @@ class Edge;
 
 #define INF std::numeric_limits<double>::max()
 
+/**
+ * @brief Graph Class Definition
+ */
 class Graph {
 public:
     ~Graph();

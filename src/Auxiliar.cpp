@@ -5,7 +5,7 @@
 #include <algorithm>
 
 /**
- * @brief Reads the DataSet
+ * @brief Reads the selected DataSet
  * @param g The main graph
  * @param dataset dataset to load
  */
@@ -46,9 +46,9 @@ void Auxiliar::readDataset(Graph *g, int dataset) {
 }
 
 /**
- * @brief Reads the Stations
+ * @brief Reads the small dataset
  * @param g The main graph
- * @param dataset dataset to load
+ * @param filename file to read
  * @details Time Complexity O(n) n = number of stations
  */
 void Auxiliar::readSmall(Graph *g, std::string filename) {
@@ -70,10 +70,10 @@ void Auxiliar::readSmall(Graph *g, std::string filename) {
 }
 
 /**
- * @brief Reads the Cities
+ * @brief Reads the medium graph
  * @param g The main graph
- * @param dataset dataset to load
- * @details Time Complexity O(n) n = number of cities
+ * @param filename file to read
+ * @param dataset Time Complexity O(n) n = number of edges
  */
 void Auxiliar::readMedium(Graph *g, std::string filename) {
 
@@ -97,10 +97,10 @@ void Auxiliar::readMedium(Graph *g, std::string filename) {
 }
 
 /**
- * @brief Reads the Pipes
+ * @brief Reads the large dataset
  * @param g The main graph
- * @param dataset dataset to load
- * @param dataset Time Complexity O(n) n = number of pipes
+ * @param filename file to read
+ * @details Time Complexity O(n) n = number nodes
  */
 void Auxiliar::readLarge(Graph *g, std::string filename) {
 
