@@ -1,6 +1,7 @@
 #include "Vertex.h"
 #include "Edge.h"
 
+
 /**
  * @brief Vertex Constructor
  */
@@ -126,4 +127,40 @@ void Vertex::deleteEdge(Edge *edge) {
         }
     }
     delete edge;
+}
+
+double Vertex::getDist() const {
+    return dist;
+}
+
+Vertex *Vertex::getParent() const {
+    return parent;
+}
+
+void Vertex::setDist(double dist) {
+    this->dist = dist;
+}
+
+void Vertex::setParent(Vertex *parent) {
+    this->parent =parent;
+}
+
+double Vertex::getLat() const {
+    return lat;
+}
+
+double Vertex::getLon() const {
+    return lon;
+}
+
+void Vertex::clearChildren() {
+    this->children = {};
+}
+
+void Vertex::addChild(Vertex *child) {
+    this->children.push_back(child);
+}
+
+std::vector<Vertex *> Vertex::getChildren() const {
+    return children;
 }
