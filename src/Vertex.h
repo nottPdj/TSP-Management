@@ -5,6 +5,9 @@
 #include <vector>
 #include <queue>
 
+/**
+ * @brief Vertex Class Definition
+ */
 class Vertex {
 public:
     Vertex(int in, double lon, double lat);

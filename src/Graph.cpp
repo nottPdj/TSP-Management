@@ -11,8 +11,10 @@ std::vector<Vertex *> Graph::getVertexSet() const {
     return vertexSet;
 }
 
-/*
- * Auxiliary function to find a vertex with a given content.
+/**
+ * @brief Auxiliary function to find a vertex with a given content
+ * @return v if dound
+ * @details Time Complexity O(n) = number of vertices
  */
 Vertex * Graph::findVertex(const int &in) const {
     for (auto v : vertexSet)
@@ -21,8 +23,10 @@ Vertex * Graph::findVertex(const int &in) const {
     return nullptr;
 }
 
-/*
- * Finds the index of the vertex with a given content.
+/**
+ * @brief Finds the index of the vertex with a given content
+ * @return i if found
+ * @details Time Complexity O(n) = number of vertices
  */
 int Graph::findVertexIdx(const int &in) const {
     for (unsigned i = 0; i < vertexSet.size(); i++)
@@ -30,9 +34,11 @@ int Graph::findVertexIdx(const int &in) const {
             return i;
     return -1;
 }
-/*
- *  Adds a vertex with a given content or info (in) to a graph (this).
- *  Returns true if successful, and false if a vertex with that content already exists.
+
+/**
+ * @brief Adds a vertex with a given content or info (in) to a graph (this).
+ * @return true if added
+ * @details Time Complexity O(n) = number of vertices
  */
 bool Graph::addVertex(const int &in, const double lat, const double lng) {
     if (findVertex(in) != nullptr)
@@ -41,10 +47,12 @@ bool Graph::addVertex(const int &in, const double lat, const double lng) {
     return true;
 }
 
-/*
- *  Removes a vertex with a given content (in) from a graph (this), and
- *  all outgoing and incoming edges.
- *  Returns true if successful, and false if such vertex does not exist.
+
+/**
+ * @brief  Removes a vertex with a given content (in) from a graph (this), and all outgoing and incoming edges.
+ * @param in
+ * @return true if removed
+ * @details Time Complexity O(n) = number of vertices
  */
 bool Graph::removeVertex(const int &in) {
     for (auto it = vertexSet.begin(); it != vertexSet.end(); it++) {
@@ -62,10 +70,15 @@ bool Graph::removeVertex(const int &in) {
     return false;
 }
 
-/*
- * Adds an edge to a graph (this), given the contents of the source and
- * destination vertices and the edge weight (w).
- * Returns true if successful, and false if the source or destination vertex does not exist.
+
+/**
+ * @brief Adds an edge to a graph (this), given the contents of the source and destination vertices and the edge weight (w)
+ * @param sourc
+ * @param dest
+ * @param w
+ * @return true if successful
+ * @details Time Complexity O(n) = number of vertices
+ *
  */
 bool Graph::addEdge(const int &sourc, const int &dest, double w) {
     auto v1 = findVertex(sourc);
@@ -76,10 +89,12 @@ bool Graph::addEdge(const int &sourc, const int &dest, double w) {
     return true;
 }
 
-/*
- * Removes an edge from a graph (this).
- * The edge is identified by the source (sourc) and destination (dest) contents.
- * Returns true if successful, and false if such edge does not exist.
+/**
+ * @brief  Removes an edge from a graph (this).
+ * @param sourc
+ * @param dest
+ * @return true if successful
+ * @details Time Complexity O(n) = number of vertices
  */
 bool Graph::removeEdge(const int &sourc, const int &dest) {
     Vertex * srcVertex = findVertex(sourc);
@@ -89,6 +104,14 @@ bool Graph::removeEdge(const int &sourc, const int &dest) {
     return srcVertex->removeEdge(dest);
 }
 
+/**
+ * @brief Adds an bidirectional edge to a graph (this), given the contents of the source and destination vertices and the edge weight (w)
+ * @param sourc
+ * @param dest
+ * @param w
+ * @return true if successful
+ * @details Time Complexity O(n) = number of vertices
+ */
 bool Graph::addBidirectionalEdge(const int &sourc, const int &dest, double w) {
     auto v1 = findVertex(sourc);
     auto v2 = findVertex(dest);
@@ -99,4 +122,13 @@ bool Graph::addBidirectionalEdge(const int &sourc, const int &dest, double w) {
     e1->setReverse(e2);
     e2->setReverse(e1);
     return true;
+}
+
+void Graph::addToDistMatrix(int v1, int v2, double dist) {
+    this->distMatrix[v1][v2] = dist;
+    this->distMatrix[v2][v1] = dist;
+}
+
+double Graph::getDist(int v1, int v2) const {
+    return this->distMatrix[v1][v2];
 }

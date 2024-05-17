@@ -13,6 +13,9 @@ class Edge;
 
 #define INF std::numeric_limits<double>::max()
 
+/**
+ * @brief Graph Class Definition
+ */
 class Graph {
 public:
     ~Graph();
@@ -40,13 +43,15 @@ public:
     int getNumVertex() const;
     std::vector<Vertex *> getVertexSet() const;
 
+    void addToDistMatrix(int v1, int v2, double dist);
+    double getDist(int v1, int v2) const;
 
     // Finds the index of the vertex with a given content.
     int findVertexIdx(const int &in) const;
 
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
-
+    std::vector<std::vector<double>> distMatrix = {};
 };
 
 #endif //PROJECT2_GRAPH_H

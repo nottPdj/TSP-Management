@@ -2,9 +2,11 @@
 #include <cmath>
 #include <limits>
 
-#define INF std::numeric_limits<double>::max()
-
-
+/**
+ * @brief Initializes values for the algorithm
+ * @param graph
+ * @return
+ */
 double Management::tspBacktracking(Graph *graph){
     int n = graph->getVertexSet().size();
     double ans = INF;
@@ -13,6 +15,17 @@ double Management::tspBacktracking(Graph *graph){
     return ans;
 }
 
+/**
+ * @brief TSP Backtracking Algorithm
+ * @param graph - current graph
+ * @param currIdx - current index
+ * @param n - number of vertices
+ * @param count - counter of vertices in path
+ * @param cost - current cost of travel
+ * @param ans - Optimal travelling cost
+ * @return ans
+ * @details Time Complexity O(n!) -> number of nodes
+*/
 double Management::tspBacktrackingAlgorithm(Graph *graph, int currIdx, int n, int count, double cost, double& ans) {
 
     // Base case: If all nodes are visited and there is a path back to the starting point

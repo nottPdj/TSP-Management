@@ -1,12 +1,16 @@
 #include "Vertex.h"
 #include "Edge.h"
 
-Vertex::Vertex(int in, double lon, double lat): info(in),lon(lon),lat(lat) {}
-/*
- * Auxiliary function to add an outgoing edge to a vertex (this),
- * with a given destination vertex (d) and edge weight (w).
- */
 
+/**
+ * @brief Vertex Constructor
+ */
+Vertex::Vertex(int in, double lat, double lng): info(in),lat(lat),lng(lng) {}
+
+/**
+ * @brief Auxiliary function to add an outgoing edge to a vertex (this), with a given destination vertex (d) and edge weight (w).
+ * @return newEdge
+ */
 Edge * Vertex::addEdge(Vertex *d, double w) {
     Edge* newEdge = new Edge(this, d, w);
     adj.push_back(newEdge);
@@ -14,12 +18,14 @@ Edge * Vertex::addEdge(Vertex *d, double w) {
     return newEdge;
 }
 
-/*
- * Auxiliary function to remove an outgoing edge (with a given destination (d))
- * from a vertex (this).
- * Returns true if successful, and false if such edge does not exist.
- */
 
+
+/**
+ * @brief Auxiliary function to remove an outgoing edge (with a given destination (d)) from a vertex (this).
+ * @param in
+ * @return removedEdge -> true if successful, and false if such edge does not exist
+ * @details Time Complexity = O(n) n-> number of incoming or adjacent edges
+ */
 bool Vertex::removeEdge(int in) {
     bool removedEdge = false;
     auto it = adj.begin();
@@ -38,10 +44,11 @@ bool Vertex::removeEdge(int in) {
     return removedEdge;
 }
 
-/*
- * Auxiliary function to remove an outgoing edge of a vertex.
- */
 
+/**
+ * @brief Auxiliary function to remove an outgoing edge of a vertex
+ * @details Time Complexity = O(n) n-> number of incoming or adjacent edges
+ */
 void Vertex::removeOutgoingEdges() {
     auto it = adj.begin();
     while (it != adj.end()) {
@@ -102,6 +109,11 @@ void Vertex::setPath(Edge *path) {
     this->path = path;
 }
 
+/**
+ * @brief Deletes incoming edge
+ * @param edge to delete
+ * @details Time Complexity = O(n) n-> number of incoming edges
+ */
 void Vertex::deleteEdge(Edge *edge) {
     Vertex *dest = edge->getDest();
     // Remove the corresponding edge from the incoming list

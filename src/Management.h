@@ -4,6 +4,9 @@
 #include "Graph.h"
 #include "Vertex.h"
 
+/**
+ * @brief Management Class Definition
+ */
 class Management {
 
 public:
@@ -12,14 +15,15 @@ public:
     static double tspTriangular(Graph* graph);
     static double tspOther(Graph* graph);
     static double tspRealWorld(Graph* graph, int start);
+    static double getHaversineDist(Vertex *v1, Vertex *v2);
 
 private:
     static void mst(Graph *graph, int start, double &minBound);
     static void setChildren(Graph *graph, double &minBound);
     static void preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path);
 
+    static void preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path);
     static double convert(const double angle);
-    static double getHaversineDist(Vertex *v1, Vertex *v2);
 };
 
 
