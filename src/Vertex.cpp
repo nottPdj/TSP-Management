@@ -1,7 +1,7 @@
 #include "Vertex.h"
 #include "Edge.h"
 
-Vertex::Vertex(int in, double lat, double lng): info(in),lat(lat),lng(lng) {}
+Vertex::Vertex(int in, double lon, double lat): info(in),lon(lon),lat(lat) {}
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
@@ -115,4 +115,40 @@ void Vertex::deleteEdge(Edge *edge) {
         }
     }
     delete edge;
+}
+
+double Vertex::getDist() const {
+    return dist;
+}
+
+Vertex *Vertex::getParent() const {
+    return parent;
+}
+
+void Vertex::setDist(double dist) {
+    this->dist = dist;
+}
+
+void Vertex::setParent(Vertex *parent) {
+    this->parent =parent;
+}
+
+double Vertex::getLat() const {
+    return lat;
+}
+
+double Vertex::getLon() const {
+    return lon;
+}
+
+void Vertex::clearChildren() {
+    this->children = {};
+}
+
+void Vertex::addChild(Vertex *child) {
+    this->children.push_back(child);
+}
+
+std::vector<Vertex *> Vertex::getChildren() const {
+    return children;
 }
