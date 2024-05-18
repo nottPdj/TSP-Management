@@ -84,12 +84,53 @@ double Management::tspTriangular(Graph *graph) {
     return cost;
 }
 
-double Management::tspOther(Graph *graph) {
-    return 0;
-}
+
+//
+//
+//
+
+
+
+
 
 double Management::tspRealWorld(Graph *graph, int start) {
     return 0;
+}
+
+void Management::perfectMatching(Graph *graph, Graph *mst){
+    int cost;
+    std::vector<int>::iterator v, closest;
+
+    std::vector<int> odds = findOdds(mst);
+
+    while(!odds.empty()){
+        v = odds.begin();
+        auto it = odds.begin() + 1;
+        auto end = odds.end();
+        cost = INF;
+        for(; it != end; it++){
+            double newDist = graph->getDist(*v,*it);
+            if(newDist < cost){
+                cost = newDist;
+                closest = it;
+            }
+        }
+        mst->addBidirectionalEdge(*v, *closest, cost);
+        odds.erase(closest);
+        odds.erase(v);
+    }
+
+}
+
+
+std::vector<int> Management::findOdds(Graph *graph){
+    std::vector<int> odds;
+    for(Vertex* v : graph->getVertexSet()){
+        if(v->getChildren().size() % 2 == 1){
+            odds.push_back(v->getInfo());
+        }
+    }
+    return odds;
 }
 
 void Management::mst(Graph *graph, int start, double &minBound) {
@@ -149,6 +190,16 @@ void Management::setChildren(Graph *graph, double &minBound) {
 //    std::cout << "Cost = " << cost << "\n\n";
 }
 
+void Management::createMstGraph(Graph *graph, Graph *mst) {
+    for (Vertex *v : graph->getVertexSet()) {
+        mst->addVertex(v->getInfo());
+        for (Vertex *w : v->getChildren()) {
+            mst->addVertex(w->getInfo());
+            mst->addBidirectionalEdge(v->getInfo(), w->getInfo(), graph->getDist(v->getInfo(), w->getInfo()));
+        }
+    }
+}
+
 void Management::preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path) {
     cost += g->getDist(v->getInfo(), path.back()->getInfo());
     path.push_back(v);
@@ -156,6 +207,40 @@ void Management::preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Ve
     for (Vertex *w: v->getChildren()) {
         preorderVisit(g, w, cost, path);
     }
+}
+
+void Management::findEulerTour(Graph *graph, Vertex *v, std::vector<Vertex *> &tour) {
+    for (Edge *e : v->getAdj()) {
+        if (!e->getDest()->isVisited()) {
+            findEulerTour(graph, e->getDest(), tour);
+            tour.push_back(v);
+        }
+    }
+}
+
+std::vector<Vertex * > Management::removeRepeatedVertices(Graph *graph, std::vector<Vertex *> &tour) {
+
+    for (Vertex *i : tour){
+        i->setVisited(false);
+    }
+
+    Vertex *root = tour.front();
+    std::vector<Vertex *>::iterator cur = tour.begin();
+    std::vector<Vertex *>::iterator iter = tour.begin()+1;
+    tour[0]->setVisited(true);
+
+    while(iter != tour.end()){
+        Vertex * v = *iter;
+        if(!v->isVisited()){
+            cur = iter;
+            v->setVisited(true);
+            iter = cur + 1;
+        }
+        else{
+            iter = tour.erase(iter);
+        }
+    }
+    return tour;
 }
 
 // convert our passed value to radians_t
@@ -177,5 +262,32 @@ double Management::getHaversineDist(Vertex *v1, Vertex *v2) {
     const double c = 2 * atan2(sqrt(a), sqrt(1 - a));
 
     return earths_radius * c;
+}
+
+double Management::tspOther(Graph *graph) {
+    double minBound = 0;
+    mst(graph, 0, minBound);
+
+    Graph * mst = new Graph();
+    createMstGraph(graph, mst);
+
+    perfectMatching(graph, mst);
+
+    for (Vertex *v : mst->getVertexSet()) {
+        v->setVisited(false);
+    }
+    std::vector<Vertex *> tour;
+    findEulerTour(mst, 0, tour);
+    removeRepeatedVertices(mst, tour);
+
+    double cost = 0;
+    for (int i = 0; i < tour.size() - 1; i++) {
+        cost += graph->getDist(tour[i]->getInfo(), tour[i + 1]->getInfo());
+    }
+    if (tour.size() > 1) {
+        cost += graph->getDist(tour[tour.size() - 1]->getInfo(), tour[0]->getInfo());
+    }
+
+    return cost;
 }
 
