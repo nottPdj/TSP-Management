@@ -69,13 +69,12 @@ void Auxiliar::readDataset(Graph *g, int dataset) {
  */
 void Auxiliar::readSmall(Graph *g, std::string filename) {
 
-    std::vector<std::vector<double>> newMatrix;
-    std::ifstream file(filename);
+    std::ifstream fileV(filename);
     std::string line, orig, dest, distance;
-    getline(file, line);
+    getline(fileV, line);
     int nrVertex = 0;
 
-    while (std::getline(file, line)){
+    while (std::getline(fileV, line)){
         std::istringstream ss(line);
         getline(ss, orig, ',');
         getline(ss, dest, ',');
@@ -86,7 +85,10 @@ void Auxiliar::readSmall(Graph *g, std::string filename) {
 
     g->setMatrix(Auxiliar::initMatrix(nrVertex));
 
-    while (std::getline(file, line)){
+    std::ifstream fileE(filename);
+    getline(fileE, line);
+
+    while (std::getline(fileE, line)){
         std::istringstream ss(line);
         getline(ss, orig, ',');
         getline(ss, dest, ',');
