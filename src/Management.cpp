@@ -81,16 +81,12 @@ double Management::tspTriangular(Graph *graph) {
         path.push_back(r);
     }
 
+    std::cout << "Min bound = " << minBound << "\n";
+    std::cout << "2-op = " << (minBound * 2) << "\n";
+    std::cout << "3/2-opp = " << (minBound * 3 / 2) << "\n\n";
+
     return cost;
 }
-
-
-//
-//
-//
-
-
-
 
 
 double Management::tspRealWorld(Graph *graph, int start) {
@@ -98,16 +94,15 @@ double Management::tspRealWorld(Graph *graph, int start) {
 }
 
 void Management::perfectMatching(Graph *graph, Graph *mst){
-    int cost;
     std::vector<int>::iterator v, closest;
 
-    std::vector<int> odds = findOdds(mst);
+    std::vector<int> odds = findOdds(graph);
 
     while(!odds.empty()){
         v = odds.begin();
         auto it = odds.begin() + 1;
         auto end = odds.end();
-        cost = INF;
+        int cost = INF;
         for(; it != end; it++){
             double newDist = graph->getDist(*v,*it);
             if(newDist < cost){
@@ -126,7 +121,12 @@ void Management::perfectMatching(Graph *graph, Graph *mst){
 std::vector<int> Management::findOdds(Graph *graph){
     std::vector<int> odds;
     for(Vertex* v : graph->getVertexSet()){
-        if(v->getChildren().size() % 2 == 1){
+        int degree = 0;
+        if (v->getParent() != nullptr) {
+            degree++;
+        }
+        degree += v->getChildren().size();
+        if(degree % 2 == 1){
             odds.push_back(v->getInfo());
         }
     }
@@ -187,7 +187,6 @@ void Management::setChildren(Graph *graph, double &minBound) {
             minBound += graph->getDist(v->getInfo(), v->getParent()->getInfo());
         }
     }
-//    std::cout << "Cost = " << cost << "\n\n";
 }
 
 void Management::createMstGraph(Graph *graph, Graph *mst) {
@@ -210,6 +209,8 @@ void Management::preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Ve
 }
 
 void Management::findEulerTour(Graph *graph, Vertex *v, std::vector<Vertex *> &tour) {
+    v->setVisited(true);
+    tour.push_back(v);
     for (Edge *e : v->getAdj()) {
         if (!e->getDest()->isVisited()) {
             findEulerTour(graph, e->getDest(), tour);
@@ -277,7 +278,7 @@ double Management::tspOther(Graph *graph) {
         v->setVisited(false);
     }
     std::vector<Vertex *> tour;
-    findEulerTour(mst, 0, tour);
+    findEulerTour(mst, mst->findVertex(0), tour);
     removeRepeatedVertices(mst, tour);
 
     double cost = 0;
