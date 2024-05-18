@@ -23,6 +23,11 @@ private:
     static void preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path);
 
     static double convert(const double angle);
+    static void createMstGraph(Graph *graph, Graph *mst);
+    static void findEulerTour(Graph *graph, Vertex *v, std::vector<Vertex *> &tour);
+    static std::vector<Vertex *> removeRepeatedVertices(Graph *graph, std::vector<Vertex *> &tour);
+    static std::vector<int> findOdds(Graph *graph);
+    static void perfectMatching(Graph *graph, Graph *mst);
 };
 
 
