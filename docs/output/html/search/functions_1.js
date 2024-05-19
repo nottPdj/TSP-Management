@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['deleteedge_35',['deleteEdge',['../classVertex.html#ac2a80daa5a6a208173f55d4d161334f1',1,'Vertex']]]
+  ['deleteedge_39',['deleteEdge',['../classVertex.html#ac2a80daa5a6a208173f55d4d161334f1',1,'Vertex']]]
 ];

@@ -14,26 +14,40 @@
 \item 
 static double \mbox{\hyperlink{classManagement_a7045357c69294008938c3b06967edb4f}{tsp\+Backtracking}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
 \begin{DoxyCompactList}\small\item\em Initializes values for the algorithm. \end{DoxyCompactList}\item 
-static double \mbox{\hyperlink{classManagement_a587e224bd695b2771a4c32f45cb7b3a4}{tsp\+Backtracking\+Algorithm}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph, int curr\+Idx, int n, int count, double cost, double \&ans)
-\begin{DoxyCompactList}\small\item\em TSP Backtracking Algorithm. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classManagement_a1551631cc905130a0332d6fa747d4210}\label{classManagement_a1551631cc905130a0332d6fa747d4210}} 
-static double {\bfseries tsp\+Triangular} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
-\item 
-\mbox{\Hypertarget{classManagement_af65c7d75154e823e35f23f9b49ed08f6}\label{classManagement_af65c7d75154e823e35f23f9b49ed08f6}} 
-static double {\bfseries tsp\+Other} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
-\item 
-\mbox{\Hypertarget{classManagement_a112aff478d1909a804790fc4c9b687e7}\label{classManagement_a112aff478d1909a804790fc4c9b687e7}} 
-static double {\bfseries tsp\+Real\+World} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph, int start)
-\item 
-\mbox{\Hypertarget{classManagement_ae63d0d2cfbc478aa931afec89831463a}\label{classManagement_ae63d0d2cfbc478aa931afec89831463a}} 
-static double {\bfseries get\+Haversine\+Dist} (\mbox{\hyperlink{classVertex}{Vertex}} $\ast$v1, \mbox{\hyperlink{classVertex}{Vertex}} $\ast$v2)
-\end{DoxyCompactItemize}
+static double \mbox{\hyperlink{classManagement_a1551631cc905130a0332d6fa747d4210}{tsp\+Triangular}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
+\begin{DoxyCompactList}\small\item\em Triangular approximation heuristic. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classManagement_af65c7d75154e823e35f23f9b49ed08f6}{tsp\+Other}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
+\begin{DoxyCompactList}\small\item\em Performs the nearest neighbour tsp algorithm. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classManagement_a112aff478d1909a804790fc4c9b687e7}{tsp\+Real\+World}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph, int start)
+\begin{DoxyCompactList}\small\item\em Performs a branch and bound algorithm. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classManagement_ae63d0d2cfbc478aa931afec89831463a}{get\+Haversine\+Dist}} (\mbox{\hyperlink{classVertex}{Vertex}} $\ast$v1, \mbox{\hyperlink{classVertex}{Vertex}} $\ast$v2)
+\begin{DoxyCompactList}\small\item\em Calculates haversine distance of two vertices. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 \mbox{\hyperlink{classManagement}{Management}} Class Definition. 
 
 \doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classManagement_ae63d0d2cfbc478aa931afec89831463a}\label{classManagement_ae63d0d2cfbc478aa931afec89831463a}} 
+\index{Management@{Management}!getHaversineDist@{getHaversineDist}}
+\index{getHaversineDist@{getHaversineDist}!Management@{Management}}
+\doxysubsubsection{\texorpdfstring{getHaversineDist()}{getHaversineDist()}}
+{\footnotesize\ttfamily double Management\+::get\+Haversine\+Dist (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classVertex}{Vertex}} $\ast$}]{v1,  }\item[{\mbox{\hyperlink{classVertex}{Vertex}} $\ast$}]{v2 }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Calculates haversine distance of two vertices. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em v1} & vertex \\
+\hline
+{\em v2} & vertex \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+haversine distance between v1 and v2 
+\end{DoxyReturn}
 \mbox{\Hypertarget{classManagement_a7045357c69294008938c3b06967edb4f}\label{classManagement_a7045357c69294008938c3b06967edb4f}} 
 \index{Management@{Management}!tspBacktracking@{tspBacktracking}}
 \index{tspBacktracking@{tspBacktracking}!Management@{Management}}
@@ -52,35 +66,63 @@ Initializes values for the algorithm.
 \begin{DoxyReturn}{Returns}
 
 \end{DoxyReturn}
-\mbox{\Hypertarget{classManagement_a587e224bd695b2771a4c32f45cb7b3a4}\label{classManagement_a587e224bd695b2771a4c32f45cb7b3a4}} 
-\index{Management@{Management}!tspBacktrackingAlgorithm@{tspBacktrackingAlgorithm}}
-\index{tspBacktrackingAlgorithm@{tspBacktrackingAlgorithm}!Management@{Management}}
-\doxysubsubsection{\texorpdfstring{tspBacktrackingAlgorithm()}{tspBacktrackingAlgorithm()}}
-{\footnotesize\ttfamily double Management\+::tsp\+Backtracking\+Algorithm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{graph,  }\item[{int}]{curr\+Idx,  }\item[{int}]{n,  }\item[{int}]{count,  }\item[{double}]{cost,  }\item[{double \&}]{ans }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+\mbox{\Hypertarget{classManagement_af65c7d75154e823e35f23f9b49ed08f6}\label{classManagement_af65c7d75154e823e35f23f9b49ed08f6}} 
+\index{Management@{Management}!tspOther@{tspOther}}
+\index{tspOther@{tspOther}!Management@{Management}}
+\doxysubsubsection{\texorpdfstring{tspOther()}{tspOther()}}
+{\footnotesize\ttfamily double Management\+::tsp\+Other (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{graph }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
 
 
 
-TSP Backtracking Algorithm. 
+Performs the nearest neighbour tsp algorithm. 
 
 
 \begin{DoxyParams}{Parameters}
-{\em graph} & -\/ current graph \\
-\hline
-{\em curr\+Idx} & -\/ current index \\
-\hline
-{\em n} & -\/ number of vertices \\
-\hline
-{\em count} & -\/ counter of vertices in path \\
-\hline
-{\em cost} & -\/ current cost of travel \\
-\hline
-{\em ans} & -\/ Optimal travelling cost \\
+{\em graph} & fully connected graph \\
 \hline
 \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-ans
+Cost of the approximate tour
 \end{DoxyReturn}
-Time Complexity O(n!) -\/$>$ number of nodes 
+Time Complexity O(v²) -\/$>$ v\+: number of vertices \mbox{\Hypertarget{classManagement_a112aff478d1909a804790fc4c9b687e7}\label{classManagement_a112aff478d1909a804790fc4c9b687e7}} 
+\index{Management@{Management}!tspRealWorld@{tspRealWorld}}
+\index{tspRealWorld@{tspRealWorld}!Management@{Management}}
+\doxysubsubsection{\texorpdfstring{tspRealWorld()}{tspRealWorld()}}
+{\footnotesize\ttfamily double Management\+::tsp\+Real\+World (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{graph,  }\item[{int}]{start }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Performs a branch and bound algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+{\em start} & vertex to start the tour \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cost of the tour if it exists else 0
+\end{DoxyReturn}
+Time Complexity O(v!) -\/$>$ v\+: number of vertices \mbox{\Hypertarget{classManagement_a1551631cc905130a0332d6fa747d4210}\label{classManagement_a1551631cc905130a0332d6fa747d4210}} 
+\index{Management@{Management}!tspTriangular@{tspTriangular}}
+\index{tspTriangular@{tspTriangular}!Management@{Management}}
+\doxysubsubsection{\texorpdfstring{tspTriangular()}{tspTriangular()}}
+{\footnotesize\ttfamily double Management\+::tsp\+Triangular (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{graph }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Triangular approximation heuristic. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & fully connected graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Cost of the approximate tour
+\end{DoxyReturn}
+Time Complexity O(v²log(v)) -\/$>$ v\+: number of vertices 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

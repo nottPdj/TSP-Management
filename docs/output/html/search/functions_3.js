@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['menu_38',['Menu',['../classMenu.html#ad96b11828e95016753e3b69859b91802',1,'Menu']]]
+  ['gethaversinedist_42',['getHaversineDist',['../classManagement.html#ae63d0d2cfbc478aa931afec89831463a',1,'Management']]]
 ];

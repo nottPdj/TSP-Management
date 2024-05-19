@@ -88,13 +88,49 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a2ccda14ef999fecda28ff175fab7f3dd"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAuxiliar.html#a2ccda14ef999fecda28ff175fab7f3dd">readLarge</a> (<a class="el" href="classGraph.html">Graph</a> *g, std::string filename)</td></tr>
 <tr class="memdesc:a2ccda14ef999fecda28ff175fab7f3dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the large dataset.  <a href="classAuxiliar.html#a2ccda14ef999fecda28ff175fab7f3dd">More...</a><br /></td></tr>
 <tr class="separator:a2ccda14ef999fecda28ff175fab7f3dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab9be846833a64b5ed69c9d2241e99500"><td class="memItemLeft" align="right" valign="top"><a id="ab9be846833a64b5ed69c9d2241e99500"></a>
-static double **&#160;</td><td class="memItemRight" valign="bottom"><b>initMatrix</b> (int n)</td></tr>
+<tr class="memitem:ab9be846833a64b5ed69c9d2241e99500"><td class="memItemLeft" align="right" valign="top">static double **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classAuxiliar.html#ab9be846833a64b5ed69c9d2241e99500">initMatrix</a> (int n)</td></tr>
+<tr class="memdesc:ab9be846833a64b5ed69c9d2241e99500"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize distance matrix with 0 for a graph.  <a href="classAuxiliar.html#ab9be846833a64b5ed69c9d2241e99500">More...</a><br /></td></tr>
 <tr class="separator:ab9be846833a64b5ed69c9d2241e99500"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Auxiliary class to read files. </p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ab9be846833a64b5ed69c9d2241e99500"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab9be846833a64b5ed69c9d2241e99500">&#9670;&nbsp;</a></span>initMatrix()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">double ** Auxiliar::initMatrix </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialize distance matrix with 0 for a graph. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">n</td><td>number of vertices </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>distance matrix</dd></dl>
+<p>Time Complexity O(v²) -&gt; v: number of vertices </p>
+
+</div>
+</div>
 <a id="a7805996557751c4bf208098751cb6753"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7805996557751c4bf208098751cb6753">&#9670;&nbsp;</a></span>readDataset()</h2>
 
@@ -182,7 +218,7 @@ static double **&#160;</td><td class="memItemRight" valign="bottom"><b>initMatri
   </table>
   </dd>
 </dl>
-<p>Time Complexity O(n) n = number nodes </p>
+<p>Time Complexity O(v²) -&gt; v: number of vertices </p>
 
 </div>
 </div>
@@ -224,11 +260,11 @@ static double **&#160;</td><td class="memItemRight" valign="bottom"><b>initMatri
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">g</td><td>The main graph </td></tr>
-    <tr><td class="paramname">filename</td><td>file to read </td></tr>
-    <tr><td class="paramname">dataset</td><td>Time Complexity O(n) n = number of edges </td></tr>
+    <tr><td class="paramname">filename</td><td>file to read</td></tr>
   </table>
   </dd>
 </dl>
+<p>Time Complexity O(v) -&gt; v: number of vertices </p>
 
 </div>
 </div>
@@ -274,7 +310,7 @@ static double **&#160;</td><td class="memItemRight" valign="bottom"><b>initMatri
   </table>
   </dd>
 </dl>
-<p>Time Complexity O(n) n = number of stations </p>
+<p>Time Complexity O(v²) -&gt; v: number of vertices </p>
 
 </div>
 </div>
