@@ -28,6 +28,8 @@ private:
     static std::vector<Vertex *> removeRepeatedVertices(Graph *graph, std::vector<Vertex *> &tour);
     static std::vector<int> findOdds(Graph *graph);
     static void perfectMatching(Graph *graph, Graph *mst);
+
+    static void tspBB(Graph *g, Vertex *cur, int n, std::vector<int> curPath, double cost, double &minCost);
 };
 
 

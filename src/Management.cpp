@@ -53,6 +53,21 @@ double Management::tspBacktrackingAlgorithm(Graph *graph, int currIdx, int n, in
 }
 
 double Management::tspTriangular(Graph *graph) {
+
+/*    int count = 0;
+    for (Vertex *v : graph->getVertexSet()) {
+        for (Vertex *w : graph->getVertexSet()) {
+            for (Vertex *x : graph->getVertexSet()) {
+                if ((v!=w) && (v!=x) && (w!=x)) {
+                    if ( (graph->getDist(v->getInfo(), w->getInfo()) + graph->getDist(w->getInfo(), x->getInfo())) < graph->getDist(v->getInfo(),x->getInfo()) ) {
+                        count++;
+                    }
+                }
+            }
+        }
+    }*/
+
+
     double minBound = 0;
     mst(graph, 0, minBound);
 
@@ -90,7 +105,54 @@ double Management::tspTriangular(Graph *graph) {
 
 
 double Management::tspRealWorld(Graph *graph, int start) {
-    return 0;
+
+    std::vector<int> curPath;
+    std::vector<int> path;
+    double minCost = INF;
+
+    for (Vertex *v : graph->getVertexSet()) {
+        v->setVisited(false);
+        if (v->getAdj().size() < 2) {
+            return 0;
+        }
+    }
+
+    Vertex *startV = graph->findVertex(start);
+    tspBB(graph, startV, graph->getNumVertex(), curPath, 0, minCost);
+
+    return minCost;
+}
+
+
+void Management::tspBB(Graph *g, Vertex *cur, int n, std::vector<int> curPath, double cost, double &minCost) {
+    cur->setVisited(true);
+    if (cost >= minCost) {
+        cur->setVisited(false);
+        return;
+    }
+    curPath.push_back(cur->getInfo());
+
+    if (curPath.size() == n) {
+        for (Edge *e : cur->getAdj()) {
+            if (g->findVertex(curPath[0])->getInfo() == e->getDest()->getInfo()) {
+                cost += e->getWeight();
+                curPath.push_back(g->findVertex(curPath[0])->getInfo());
+                if (cost < minCost) {
+//                    path = curPath;
+                    minCost = cost;
+                    std::cout << "\n\nFOUND: " << cost << "\n";
+                }
+            }
+        }
+    }
+
+    for (Edge *e : cur->getAdj()) {
+        if (!e->getDest()->isVisited()) {
+            tspBB(g, e->getDest(), n, curPath, cost + e->getWeight(), minCost);
+        }
+    }
+
+    cur->setVisited(false);
 }
 
 void Management::perfectMatching(Graph *graph, Graph *mst){

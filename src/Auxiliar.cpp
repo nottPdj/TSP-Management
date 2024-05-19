@@ -177,7 +177,6 @@ void Auxiliar::readLarge(Graph *g, std::string filename) {
     }
 
     for (int i = 0; i < nrVertex - 1; i++) {
-        }
         for (int j = 0; j < i + 1; j++){
             if ((g->getDist(i, j) == 0)) {
                 g->addToDistMatrix(i, j, Management::getHaversineDist(g->findVertex(i), g->findVertex(j)));
