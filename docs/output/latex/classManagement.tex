@@ -1,0 +1,88 @@
+\hypertarget{classManagement}{}\doxysection{Management Class Reference}
+\label{classManagement}\index{Management@{Management}}
+
+
+\mbox{\hyperlink{classManagement}{Management}} Class Definition.  
+
+
+
+
+{\ttfamily \#include $<$Management.\+h$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static double \mbox{\hyperlink{classManagement_a7045357c69294008938c3b06967edb4f}{tsp\+Backtracking}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
+\begin{DoxyCompactList}\small\item\em Initializes values for the algorithm. \end{DoxyCompactList}\item 
+static double \mbox{\hyperlink{classManagement_a587e224bd695b2771a4c32f45cb7b3a4}{tsp\+Backtracking\+Algorithm}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph, int curr\+Idx, int n, int count, double cost, double \&ans)
+\begin{DoxyCompactList}\small\item\em TSP Backtracking Algorithm. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classManagement_a1551631cc905130a0332d6fa747d4210}\label{classManagement_a1551631cc905130a0332d6fa747d4210}} 
+static double {\bfseries tsp\+Triangular} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
+\item 
+\mbox{\Hypertarget{classManagement_af65c7d75154e823e35f23f9b49ed08f6}\label{classManagement_af65c7d75154e823e35f23f9b49ed08f6}} 
+static double {\bfseries tsp\+Other} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph)
+\item 
+\mbox{\Hypertarget{classManagement_a112aff478d1909a804790fc4c9b687e7}\label{classManagement_a112aff478d1909a804790fc4c9b687e7}} 
+static double {\bfseries tsp\+Real\+World} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$graph, int start)
+\item 
+\mbox{\Hypertarget{classManagement_ae63d0d2cfbc478aa931afec89831463a}\label{classManagement_ae63d0d2cfbc478aa931afec89831463a}} 
+static double {\bfseries get\+Haversine\+Dist} (\mbox{\hyperlink{classVertex}{Vertex}} $\ast$v1, \mbox{\hyperlink{classVertex}{Vertex}} $\ast$v2)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{classManagement}{Management}} Class Definition. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classManagement_a7045357c69294008938c3b06967edb4f}\label{classManagement_a7045357c69294008938c3b06967edb4f}} 
+\index{Management@{Management}!tspBacktracking@{tspBacktracking}}
+\index{tspBacktracking@{tspBacktracking}!Management@{Management}}
+\doxysubsubsection{\texorpdfstring{tspBacktracking()}{tspBacktracking()}}
+{\footnotesize\ttfamily double Management\+::tsp\+Backtracking (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{graph }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Initializes values for the algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+\mbox{\Hypertarget{classManagement_a587e224bd695b2771a4c32f45cb7b3a4}\label{classManagement_a587e224bd695b2771a4c32f45cb7b3a4}} 
+\index{Management@{Management}!tspBacktrackingAlgorithm@{tspBacktrackingAlgorithm}}
+\index{tspBacktrackingAlgorithm@{tspBacktrackingAlgorithm}!Management@{Management}}
+\doxysubsubsection{\texorpdfstring{tspBacktrackingAlgorithm()}{tspBacktrackingAlgorithm()}}
+{\footnotesize\ttfamily double Management\+::tsp\+Backtracking\+Algorithm (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{graph,  }\item[{int}]{curr\+Idx,  }\item[{int}]{n,  }\item[{int}]{count,  }\item[{double}]{cost,  }\item[{double \&}]{ans }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+TSP Backtracking Algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & -\/ current graph \\
+\hline
+{\em curr\+Idx} & -\/ current index \\
+\hline
+{\em n} & -\/ number of vertices \\
+\hline
+{\em count} & -\/ counter of vertices in path \\
+\hline
+{\em cost} & -\/ current cost of travel \\
+\hline
+{\em ans} & -\/ Optimal travelling cost \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ans
+\end{DoxyReturn}
+Time Complexity O(n!) -\/$>$ number of nodes 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/tiagoftorres/\+Desktop/\+DA\+\_\+\+Project2/src/Management.\+h\item 
+/home/tiagoftorres/\+Desktop/\+DA\+\_\+\+Project2/src/Management.\+cpp\end{DoxyCompactItemize}

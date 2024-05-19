@@ -54,20 +54,6 @@ double Management::tspBacktrackingAlgorithm(Graph *graph, int currIdx, int n, in
 
 double Management::tspTriangular(Graph *graph) {
 
-/*    int count = 0;
-    for (Vertex *v : graph->getVertexSet()) {
-        for (Vertex *w : graph->getVertexSet()) {
-            for (Vertex *x : graph->getVertexSet()) {
-                if ((v!=w) && (v!=x) && (w!=x)) {
-                    if ( (graph->getDist(v->getInfo(), w->getInfo()) + graph->getDist(w->getInfo(), x->getInfo())) < graph->getDist(v->getInfo(),x->getInfo()) ) {
-                        count++;
-                    }
-                }
-            }
-        }
-    }*/
-
-
     double minBound = 0;
     mst(graph, 0, minBound);
 

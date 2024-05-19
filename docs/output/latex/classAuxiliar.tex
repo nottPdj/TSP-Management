@@ -1,0 +1,107 @@
+\hypertarget{classAuxiliar}{}\doxysection{Auxiliar Class Reference}
+\label{classAuxiliar}\index{Auxiliar@{Auxiliar}}
+
+
+Auxiliary class to read files.  
+
+
+
+
+{\ttfamily \#include $<$Auxiliar.\+h$>$}
+
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \mbox{\hyperlink{classAuxiliar_a7805996557751c4bf208098751cb6753}{read\+Dataset}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$g, int dataset=0)
+\begin{DoxyCompactList}\small\item\em Reads the selected Data\+Set. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classAuxiliar_afcc0bbc9febbbe8bd5ccb7cada2ad772}{read\+Small}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$g, std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Reads the small dataset. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classAuxiliar_a4d705e7af61859cc21ab491befcff0a8}{read\+Medium}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$g, std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Reads the medium graph. \end{DoxyCompactList}\item 
+static void \mbox{\hyperlink{classAuxiliar_a2ccda14ef999fecda28ff175fab7f3dd}{read\+Large}} (\mbox{\hyperlink{classGraph}{Graph}} $\ast$g, std\+::string filename)
+\begin{DoxyCompactList}\small\item\em Reads the large dataset. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{classAuxiliar_ab9be846833a64b5ed69c9d2241e99500}\label{classAuxiliar_ab9be846833a64b5ed69c9d2241e99500}} 
+static double $\ast$$\ast$ {\bfseries init\+Matrix} (int n)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Auxiliary class to read files. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classAuxiliar_a7805996557751c4bf208098751cb6753}\label{classAuxiliar_a7805996557751c4bf208098751cb6753}} 
+\index{Auxiliar@{Auxiliar}!readDataset@{readDataset}}
+\index{readDataset@{readDataset}!Auxiliar@{Auxiliar}}
+\doxysubsubsection{\texorpdfstring{readDataset()}{readDataset()}}
+{\footnotesize\ttfamily void Auxiliar\+::read\+Dataset (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{g,  }\item[{int}]{dataset = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reads the selected Data\+Set. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The main graph \\
+\hline
+{\em dataset} & dataset to load \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAuxiliar_a2ccda14ef999fecda28ff175fab7f3dd}\label{classAuxiliar_a2ccda14ef999fecda28ff175fab7f3dd}} 
+\index{Auxiliar@{Auxiliar}!readLarge@{readLarge}}
+\index{readLarge@{readLarge}!Auxiliar@{Auxiliar}}
+\doxysubsubsection{\texorpdfstring{readLarge()}{readLarge()}}
+{\footnotesize\ttfamily void Auxiliar\+::read\+Large (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{g,  }\item[{std\+::string}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reads the large dataset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The main graph \\
+\hline
+{\em filename} & file to read\\
+\hline
+\end{DoxyParams}
+Time Complexity O(n) n = number nodes \mbox{\Hypertarget{classAuxiliar_a4d705e7af61859cc21ab491befcff0a8}\label{classAuxiliar_a4d705e7af61859cc21ab491befcff0a8}} 
+\index{Auxiliar@{Auxiliar}!readMedium@{readMedium}}
+\index{readMedium@{readMedium}!Auxiliar@{Auxiliar}}
+\doxysubsubsection{\texorpdfstring{readMedium()}{readMedium()}}
+{\footnotesize\ttfamily void Auxiliar\+::read\+Medium (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{g,  }\item[{std\+::string}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reads the medium graph. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The main graph \\
+\hline
+{\em filename} & file to read \\
+\hline
+{\em dataset} & Time Complexity O(n) n = number of edges \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{classAuxiliar_afcc0bbc9febbbe8bd5ccb7cada2ad772}\label{classAuxiliar_afcc0bbc9febbbe8bd5ccb7cada2ad772}} 
+\index{Auxiliar@{Auxiliar}!readSmall@{readSmall}}
+\index{readSmall@{readSmall}!Auxiliar@{Auxiliar}}
+\doxysubsubsection{\texorpdfstring{readSmall()}{readSmall()}}
+{\footnotesize\ttfamily void Auxiliar\+::read\+Small (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classGraph}{Graph}} $\ast$}]{g,  }\item[{std\+::string}]{filename }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Reads the small dataset. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em g} & The main graph \\
+\hline
+{\em filename} & file to read\\
+\hline
+\end{DoxyParams}
+Time Complexity O(n) n = number of stations 
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/home/tiagoftorres/\+Desktop/\+DA\+\_\+\+Project2/src/Auxiliar.\+h\item 
+/home/tiagoftorres/\+Desktop/\+DA\+\_\+\+Project2/src/Auxiliar.\+cpp\end{DoxyCompactItemize}
