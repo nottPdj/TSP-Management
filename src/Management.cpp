@@ -3,6 +3,40 @@
 #include <limits>
 
 /**
+ * @brief Converts angle value to radians
+ * @param angle
+ * @return value in radians
+ */
+// convert our passed value to radians_t
+double Management::convert(const double angle) {
+    return angle * (M_PI / 180);
+}
+
+/**
+ * @brief Calculates haversine distance of two vertices
+ * @param v1 vertex
+ * @param v2 vertex
+ * @return haversine distance between v1 and v2
+ */
+double Management::getHaversineDist(Vertex *v1, Vertex *v2) {
+    const double earths_radius = 6371000;
+
+    // Get the difference between our two points then convert the difference into radians
+    const double lat_delta = convert(v2->getLat() - v1->getLat());
+    const double lon_delta = convert(v2->getLon() - v1->getLon());
+
+    const double converted_lat1 = convert(v1->getLat());
+    const double converted_lat2 = convert(v2->getLat());
+
+    const double a = pow(sin(lat_delta / 2), 2) + cos(converted_lat1) * cos(converted_lat2) * pow(sin(lon_delta / 2), 2);
+    const double c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
+    return earths_radius * c;
+}
+
+
+
+/**
  * @brief Initializes values for the algorithm
  * @param graph
  * @return
@@ -24,7 +58,7 @@ double Management::tspBacktracking(Graph *graph){
  * @param cost - current cost of travel
  * @param ans - Optimal travelling cost
  * @return ans
- * @details Time Complexity O(n!) -> number of nodes
+ * @details Time Complexity O(v) -> v: number of vertices
 */
 double Management::tspBacktrackingAlgorithm(Graph *graph, int currIdx, int n, int count, double cost, double& ans) {
 
@@ -52,10 +86,16 @@ double Management::tspBacktrackingAlgorithm(Graph *graph, int currIdx, int n, in
     return ans;
 }
 
+
+/**
+ * @brief Triangular approximation heuristic
+ * @param graph fully connected graph
+ * @return Cost of the approximate tour
+ * @details Time Complexity O(v²log(v)) -> v: number of vertices
+ */
 double Management::tspTriangular(Graph *graph) {
 
-    double minBound = 0;
-    mst(graph, 0, minBound);
+    mst(graph, 0);
 
     for (Vertex *v: graph->getVertexSet()) {
         v->setVisited(false);
@@ -77,111 +117,20 @@ double Management::tspTriangular(Graph *graph) {
     // add last edge
     if (path.size() > 1) {
         cost += graph->getDist(path.back()->getInfo(), r->getInfo());
-        minBound += graph->getDist(path.back()->getInfo(), r->getInfo());
-        std::cout << minBound << '\n';
         path.push_back(r);
     }
-
-    std::cout << "Min bound = " << minBound << "\n";
-    std::cout << "2-op = " << (minBound * 2) << "\n";
-    std::cout << "3/2-opp = " << (minBound * 3 / 2) << "\n\n";
 
     return cost;
 }
 
 
-double Management::tspRealWorld(Graph *graph, int start) {
-
-    std::vector<int> curPath;
-    std::vector<int> path;
-    double minCost = INF;
-
-    for (Vertex *v : graph->getVertexSet()) {
-        v->setVisited(false);
-        if (v->getAdj().size() < 2) {
-            return 0;
-        }
-    }
-
-    Vertex *startV = graph->findVertex(start);
-    tspBB(graph, startV, graph->getNumVertex(), curPath, 0, minCost);
-
-    return minCost;
-}
-
-
-void Management::tspBB(Graph *g, Vertex *cur, int n, std::vector<int> curPath, double cost, double &minCost) {
-    cur->setVisited(true);
-    if (cost >= minCost) {
-        cur->setVisited(false);
-        return;
-    }
-    curPath.push_back(cur->getInfo());
-
-    if (curPath.size() == n) {
-        for (Edge *e : cur->getAdj()) {
-            if (g->findVertex(curPath[0])->getInfo() == e->getDest()->getInfo()) {
-                cost += e->getWeight();
-                curPath.push_back(g->findVertex(curPath[0])->getInfo());
-                if (cost < minCost) {
-//                    path = curPath;
-                    minCost = cost;
-                    std::cout << "\n\nFOUND: " << cost << "\n";
-                }
-            }
-        }
-    }
-
-    for (Edge *e : cur->getAdj()) {
-        if (!e->getDest()->isVisited()) {
-            tspBB(g, e->getDest(), n, curPath, cost + e->getWeight(), minCost);
-        }
-    }
-
-    cur->setVisited(false);
-}
-
-void Management::perfectMatching(Graph *graph, Graph *mst){
-    std::vector<int>::iterator v, closest;
-
-    std::vector<int> odds = findOdds(graph);
-
-    while(!odds.empty()){
-        v = odds.begin();
-        auto it = odds.begin() + 1;
-        auto end = odds.end();
-        int cost = INF;
-        for(; it != end; it++){
-            double newDist = graph->getDist(*v,*it);
-            if(newDist < cost){
-                cost = newDist;
-                closest = it;
-            }
-        }
-        mst->addBidirectionalEdge(*v, *closest, cost);
-        odds.erase(closest);
-        odds.erase(v);
-    }
-
-}
-
-
-std::vector<int> Management::findOdds(Graph *graph){
-    std::vector<int> odds;
-    for(Vertex* v : graph->getVertexSet()){
-        int degree = 0;
-        if (v->getParent() != nullptr) {
-            degree++;
-        }
-        degree += v->getChildren().size();
-        if(degree % 2 == 1){
-            odds.push_back(v->getInfo());
-        }
-    }
-    return odds;
-}
-
-void Management::mst(Graph *graph, int start, double &minBound) {
+/**
+ * @brief Gets the minimum spanning tree (mst) using Prim's algorithm
+ * @param graph graph to get the mst
+ * @param start vertex to start mst
+ * @details Time Complexity O(v²log(v)) -> v: number of vertices
+ */
+void Management::mst(Graph *graph, int start) {
 
     for (Vertex *v : graph->getVertexSet()) {
         v->setVisited(false);
@@ -224,29 +173,31 @@ void Management::mst(Graph *graph, int start, double &minBound) {
     }
 
     // set for each vertex the children that were visited after it
-    setChildren(graph, minBound);
+    setChildren(graph);
 }
 
-void Management::setChildren(Graph *graph, double &minBound) {
+/**
+ * @brief Auxiliary function that saves in each vertex the children vertices according to the mst performed before
+ * @param graph graph after mst
+ * @details Time Complexity O(v) -> v: number of vertices
+ */
+void Management::setChildren(Graph *graph) {
 
     for (Vertex *v: graph->getVertexSet()) {
         if (v->getParent() != nullptr) {
             v->getParent()->addChild(v);
-            minBound += graph->getDist(v->getInfo(), v->getParent()->getInfo());
         }
     }
 }
 
-void Management::createMstGraph(Graph *graph, Graph *mst) {
-    for (Vertex *v : graph->getVertexSet()) {
-        mst->addVertex(v->getInfo());
-        for (Vertex *w : v->getChildren()) {
-            mst->addVertex(w->getInfo());
-            mst->addBidirectionalEdge(v->getInfo(), w->getInfo(), graph->getDist(v->getInfo(), w->getInfo()));
-        }
-    }
-}
-
+/**
+ * @brief Makes a preorder visit through the mst
+ * @param g graph after mst
+ * @param v vertex from whom children will be added to the preorder visit
+ * @param cost it will be returned as the cost of the preorder visit
+ * @param path it will be returned as the preorder visit
+ * @details Time Complexity O(v) -> v: number of vertices
+ */
 void Management::preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Vertex *> &path) {
     cost += g->getDist(v->getInfo(), path.back()->getInfo());
     path.push_back(v);
@@ -256,87 +207,113 @@ void Management::preorderVisit(Graph *g, Vertex *v, double &cost, std::vector<Ve
     }
 }
 
-void Management::findEulerTour(Graph *graph, Vertex *v, std::vector<Vertex *> &tour) {
-    v->setVisited(true);
-    tour.push_back(v);
-    for (Edge *e : v->getAdj()) {
-        if (!e->getDest()->isVisited()) {
-            findEulerTour(graph, e->getDest(), tour);
-            tour.push_back(v);
-        }
-    }
-}
 
-std::vector<Vertex * > Management::removeRepeatedVertices(Graph *graph, std::vector<Vertex *> &tour) {
-
-    for (Vertex *i : tour){
-        i->setVisited(false);
-    }
-
-    Vertex *root = tour.front();
-    std::vector<Vertex *>::iterator cur = tour.begin();
-    std::vector<Vertex *>::iterator iter = tour.begin()+1;
-    tour[0]->setVisited(true);
-
-    while(iter != tour.end()){
-        Vertex * v = *iter;
-        if(!v->isVisited()){
-            cur = iter;
-            v->setVisited(true);
-            iter = cur + 1;
-        }
-        else{
-            iter = tour.erase(iter);
-        }
-    }
-    return tour;
-}
-
-// convert our passed value to radians_t
-double Management::convert(const double angle) {
-    return angle * (M_PI / 180);
-}
-
-double Management::getHaversineDist(Vertex *v1, Vertex *v2) {
-    const double earths_radius = 6371000;
-
-    // Get the difference between our two points then convert the difference into radians
-    const double lat_delta = convert(v2->getLat() - v1->getLat());
-    const double lon_delta = convert(v2->getLon() - v1->getLon());
-
-    const double converted_lat1 = convert(v1->getLat());
-    const double converted_lat2 = convert(v2->getLat());
-
-    const double a = pow(sin(lat_delta / 2), 2) + cos(converted_lat1) * cos(converted_lat2) * pow(sin(lon_delta / 2), 2);
-    const double c = 2 * atan2(sqrt(a), sqrt(1 - a));
-
-    return earths_radius * c;
-}
-
+/**
+ * @brief Performs the nearest neighbour tsp algorithm
+ * @param graph fully connected graph
+ * @return Cost of the approximate tour
+ * @details Time Complexity O(v²) -> v: number of vertices
+ */
 double Management::tspOther(Graph *graph) {
-    double minBound = 0;
-    mst(graph, 0, minBound);
+    double cost = 0;
 
-    Graph * mst = new Graph();
-    createMstGraph(graph, mst);
-
-    perfectMatching(graph, mst);
-
-    for (Vertex *v : mst->getVertexSet()) {
+    for (Vertex *v : graph->getVertexSet()) {
         v->setVisited(false);
     }
-    std::vector<Vertex *> tour;
-    findEulerTour(mst, mst->findVertex(0), tour);
-    removeRepeatedVertices(mst, tour);
 
-    double cost = 0;
-    for (int i = 0; i < tour.size() - 1; i++) {
-        cost += graph->getDist(tour[i]->getInfo(), tour[i + 1]->getInfo());
+    Vertex *last = graph->findVertex(0);
+
+    std::vector<int> path;
+    path.push_back(last->getInfo());
+    last->setVisited(true);
+
+    while (path.size() < graph->getNumVertex()) {
+        double minCost = INF;
+        Vertex *minVertex;
+
+        for (Vertex *v : graph->getVertexSet()) {
+            if (v->getInfo() != last->getInfo() && !v->isVisited()) {
+                if (graph->getDist(v->getInfo(), last->getInfo()) < minCost) {
+                    minCost = graph->getDist(v->getInfo(), last->getInfo());
+                    minVertex = v;
+                }
+            }
+        }
+
+        last = minVertex;
+        path.push_back(last->getInfo());
+        last->setVisited(true);
+        cost += minCost;
     }
-    if (tour.size() > 1) {
-        cost += graph->getDist(tour[tour.size() - 1]->getInfo(), tour[0]->getInfo());
-    }
+
+    cost += graph->getDist(path.back(), 0);
 
     return cost;
 }
 
+
+/**
+ * @brief Performs a branch and bound algorithm
+ * @param graph
+ * @param start vertex to start the tour
+ * @return Cost of the tour if it exists else 0
+ * @details @details Time Complexity O(v!) -> v: number of vertices
+ */
+double Management::tspRealWorld(Graph *graph, int start) {
+
+    std::vector<int> curPath;
+    std::vector<int> path;
+    double minCost = INF;
+
+    for (Vertex *v : graph->getVertexSet()) {
+        v->setVisited(false);
+        if (v->getAdj().size() < 2) {
+            return 0;
+        }
+    }
+
+    Vertex *startV = graph->findVertex(start);
+    tspBB(graph, startV, graph->getNumVertex(), curPath, 0, minCost);
+
+    return minCost;
+}
+
+
+/**
+ * @brief Auxiliary recursive function of branch and bound algorithm
+ * @param g
+ * @param cur last vertex to be added to the path
+ * @param n number of vertices
+ * @param curPath current path
+ * @param cost current cost
+ * @param minCost minimum cost so far
+ * @details @details Time Complexity O(v!) -> v: number of vertices
+ */
+void Management::tspBB(Graph *g, Vertex *cur, int n, std::vector<int> curPath, double cost, double &minCost) {
+    cur->setVisited(true);
+    if (cost >= minCost) {
+        cur->setVisited(false);
+        return;
+    }
+    curPath.push_back(cur->getInfo());
+
+    if (curPath.size() == n) {
+        for (Edge *e : cur->getAdj()) {
+            if (g->findVertex(curPath[0])->getInfo() == e->getDest()->getInfo()) {
+                cost += e->getWeight();
+                curPath.push_back(g->findVertex(curPath[0])->getInfo());
+                if (cost < minCost) {
+                    minCost = cost;
+                }
+            }
+        }
+    }
+
+    for (Edge *e : cur->getAdj()) {
+        if (!e->getDest()->isVisited()) {
+            tspBB(g, e->getDest(), n, curPath, cost + e->getWeight(), minCost);
+        }
+    }
+
+    cur->setVisited(false);
+}

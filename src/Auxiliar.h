@@ -1,5 +1,5 @@
-#ifndef PROJECT1_AUXILIAR_H
-#define PROJECT1_AUXILIAR_H
+#ifndef PROJECT2_AUXILIAR_H
+#define PROJECT2_AUXILIAR_H
 #include "Graph.h"
 
 /**
@@ -15,4 +15,4 @@ public:
 
 };
 
-#endif //PROJECT1_AUXILIAR_H
+#endif //PROJECT2_AUXILIAR_H

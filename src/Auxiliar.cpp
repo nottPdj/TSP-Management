@@ -5,7 +5,12 @@
 #include <fstream>
 #include <algorithm>
 
-
+/**
+ * @brief Initialize distance matrix with 0 for a graph
+ * @param n number of vertices
+ * @return distance matrix
+ * @details Time Complexity O(v²) -> v: number of vertices
+ */
 double **Auxiliar::initMatrix(int n) {
     auto matrix = new double*[n];
     for (int i = 0; i < n; ++i) {
@@ -65,7 +70,7 @@ void Auxiliar::readDataset(Graph *g, int dataset) {
  * @brief Reads the small dataset
  * @param g The main graph
  * @param filename file to read
- * @details Time Complexity O(n) n = number of stations
+ * @details Time Complexity O(v²) -> v: number of vertices
  */
 void Auxiliar::readSmall(Graph *g, std::string filename) {
 
@@ -112,7 +117,7 @@ void Auxiliar::readSmall(Graph *g, std::string filename) {
  * @brief Reads the medium graph
  * @param g The main graph
  * @param filename file to read
- * @param dataset Time Complexity O(n) n = number of edges
+ * @details Time Complexity O(v) -> v: number of vertices
  */
 void Auxiliar::readMedium(Graph *g, std::string filename) {
 
@@ -142,7 +147,7 @@ void Auxiliar::readMedium(Graph *g, std::string filename) {
  * @brief Reads the large dataset
  * @param g The main graph
  * @param filename file to read
- * @details Time Complexity O(n) n = number nodes
+ * @details Time Complexity O(v²) -> v: number of vertices
  */
 void Auxiliar::readLarge(Graph *g, std::string filename) {
 

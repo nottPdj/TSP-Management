@@ -52,6 +52,8 @@ public:
 
 protected:
     std::vector<Vertex *> vertexSet;    // vertex set
+
+
     double** distMatrix;
 };
 
